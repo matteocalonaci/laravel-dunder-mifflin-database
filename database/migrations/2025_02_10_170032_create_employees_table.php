@@ -12,12 +12,15 @@ class CreateEmployeesTable extends Migration
             $table->id(); // This creates an 'id' column of type BIGINT UNSIGNED
             $table->string('First_Name');
             $table->string('Last_Name');
-            $table->unsignedBigInteger('ID_User'); // Ensure this matches the type
+            $table->unsignedBigInteger('ID_User'); // Foreign key to users table
             $table->unsignedBigInteger('ID_Department');
             $table->unsignedBigInteger('ID_Office');
             $table->string('Phone');
             $table->string('Email');
             $table->timestamps();
+
+            // Define the foreign key constraint
+            $table->foreign('ID_User')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

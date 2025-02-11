@@ -20,7 +20,7 @@ class CreateDepartmentsTable extends Migration
             $table->unsignedBigInteger('ID_Office'); // Ensure this is unsignedBigInteger
             $table->integer('Number_of_Employees');
             $table->timestamps();
-        
+
             // Foreign keys
             $table->foreign('ID_Office')->references('id')->on('offices')->onDelete('cascade');
         });

@@ -10,23 +10,18 @@ class Employee extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id',
+        'ID_User', // Foreign key to users table
         'First_Name',
         'Last_Name',
-        'ID_User',
         'ID_Department',
         'ID_Office',
         'Phone',
         'Email',
     ];
 
-    public function department()
-{
-    return $this->belongsTo(Department::class, 'ID_Department');
-}
-
-public function user()
-{
-    return $this->belongsTo(User::class, 'ID_User');
-}
+    // Define the inverse of the relationship
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'ID_User'); // Specify the foreign key
+    }
 }

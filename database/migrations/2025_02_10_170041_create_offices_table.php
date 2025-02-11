@@ -6,27 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateOfficesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
-{
-    Schema::create('offices', function (Blueprint $table) {
-        $table->engine = 'InnoDB'; // Specify the engine
-        $table->id();
-        $table->string('Office_Name');
-        $table->string('Address');
-        $table->bigInteger('Phone');
-        $table->timestamps();
-    });
-}
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    {
+        Schema::create('offices', function (Blueprint $table) {
+            $table->id();
+            $table->string('Office_Name');
+            $table->string('Address');
+            $table->string('Phone'); // Ensure this is a string type
+            $table->timestamps();
+        });
+    }
+
     public function down()
     {
         Schema::dropIfExists('offices');

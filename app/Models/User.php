@@ -10,10 +10,23 @@ class User extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id',
-        'ID_Employee',
-        'Password',
-        'Email',
-        'Role',
+        'name',
+        'email',
+        'password',
+        'role',
+        'email_verified_at',
     ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    public $timestamps = true;
+
+    // Define the one-to-one relationship with Employee
+    public function employee()
+    {
+        return $this->hasOne(Employee::class, 'ID_User'); // Specify the foreign key
+    }
 }
