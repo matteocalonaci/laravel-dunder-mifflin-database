@@ -10,6 +10,7 @@ class CreateEmployeesTable extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id(); // This creates an 'id' column of type BIGINT UNSIGNED
+            $table->text('image')->nullable(); // Use text for the image URL
             $table->string('First_Name');
             $table->string('Last_Name');
             $table->unsignedBigInteger('ID_User'); // Foreign key to users table

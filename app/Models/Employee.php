@@ -11,6 +11,7 @@ class Employee extends Model
 
     protected $fillable = [
         'ID_User', // Foreign key to users table
+        'image',
         'First_Name',
         'Last_Name',
         'ID_Department',
