@@ -9,6 +9,9 @@ class EmployeeSeeder extends Seeder
 {
     public function run()
     {
+
+        DB::table('employees')->whereNull('image')->delete();
+
         $employees = [
             // Sales Department
             [
@@ -123,6 +126,19 @@ class EmployeeSeeder extends Seeder
             ],
         ];
 
-        DB::table('employees')->insert($employees);
+        foreach ($employees as $employee) {
+            DB::table('employees')->insert([ // Replace 'employees' with your actual table name
+                'First_Name' => $employee['First_Name'],
+                'Last_Name' => $employee['Last_Name'],
+                'ID_User' => $employee['ID_User'],
+                'ID_Department' => $employee['ID_Department'],
+                'ID_Office' => $employee['ID_Office'],
+                'Phone' => $employee['Phone'],
+                'Email' => $employee['Email'],
+                'image' => $employee['image'],
+            ]);
+        }
+
+
     }
 }
