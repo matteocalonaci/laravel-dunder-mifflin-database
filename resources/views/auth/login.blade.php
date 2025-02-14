@@ -71,3 +71,9 @@
     </div>
 </div>
 @endsection
+
+<style scoped>
+    .card{
+        margin-top: 10rem;
+    }
+</style>

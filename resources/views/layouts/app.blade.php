@@ -21,12 +21,12 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md p-0 m-0 d-flex justify-content-center">
-            <div class="container d-flex justify-content-between align-items-center p-0">
+            <div class="app-container d-flex justify-content-between align-items-center p-3">
                 <div class="d-flex align-items-center"> <!-- Flex container for logo and home link -->
                     <div class="logo_dunder_mifflin mx-3">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Dunder_Mifflin%2C_Inc.svg/1200px-Dunder_Mifflin%2C_Inc.svg.png" alt="">
                     </div>
-                    <a class="nav-link text-white" href="{{ url('/') }}">{{ __('HOME') }}</a> <!-- Home link next to logo -->
+                    <a class="nav-link" href="{{ url('/') }}">{{ __('HOME') }}</a> <!-- Home link next to logo -->
                 </div>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -35,13 +35,8 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="{{ route('login') }}">{{ __('LOGIN') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('LOGIN') }}</a>
                             </li>
-                            {{-- @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif --}}
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
@@ -78,33 +73,36 @@
 </html>
 
 <style scoped>
-    body {
-        margin: 0; /* Remove default body margin */
-    }
-
-    .container {
+    .app-container {
         position: fixed;
-        top: 1rem;
+        top: 0;
         z-index: 999;
-        width: 100%; /* Ensure the container takes full width */
-        padding: 0; /* Remove padding */
+        width: 100%;
+        padding: 0;
     }
 
     .logo_dunder_mifflin img {
         width: 100px;
         height: auto;
     }
+
     .navbar-nav {
         margin: 0; /* Remove margin from navbar items */
     }
 
     .nav-link {
-        padding: 0.5rem 1rem; /* Adjust padding for nav links */
-        color: white; /* Ensure text is white */
+        padding: 0.2rem 0.8rem; /* Adjust padding for nav links */
+        color: white; /* Change text color to black for better visibility */
+        text-shadow:
+            -1px -1px 0 rgb(0, 0, 0),
+             1px -1px 0 rgb(0, 0, 0),
+            -1px  1px 0 rgb(0, 0, 0),
+             1px  1px 0 rgb(0, 0, 0); /* Red outline */
     }
 
     .nav-link:hover {
         border-radius: 2rem;
+        color: white; /* Change text color to black for better visibility */
         text-decoration: underline;
         background-color: rgba(255, 255, 0, 0.651);
     }
