@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable; // Change this line
+use Illuminate\Notifications\Notifiable;
 
-class User extends Model
+class User extends Authenticatable // Change this line
 {
-    use HasFactory;
+    use HasFactory, Notifiable; // Add Notifiable trait
 
     protected $fillable = [
         'name',
@@ -22,11 +23,5 @@ class User extends Model
         'remember_token',
     ];
 
-    public $timestamps = true;
-
-    // Define the one-to-one relationship with Employee
-    public function employee()
-    {
-        return $this->hasOne(Employee::class, 'ID_User'); // Specify the foreign key
-    }
+    public $timestamps = true; // This is true by default, but you can specify it explicitly
 }
