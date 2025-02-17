@@ -147,7 +147,9 @@
     @media (min-width: 769px) {
         .dropdown-menu[data-bs-popper] {
             top: 100%;
-            left: -29px; /* Sposta il dropdown a sinistra */
+            right: 1rem; /* Posiziona il dropdown a 1rem dal lato destro */
+            left: auto; /* Disabilita l'allineamento a sinistra */
+            transform: translateX(0); /* Non spostare il dropdown */
             margin-top: var(--bs-dropdown-spacer);
         }
     }

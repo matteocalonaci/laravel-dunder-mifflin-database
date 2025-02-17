@@ -42,10 +42,10 @@
                         </li>
                     @else
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }}
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('admin.dashboard') }}">{{ __('Dashboard') }}</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
@@ -67,6 +67,7 @@
 </body>
 
 </html>
+
 <style scoped>
     body {
         margin: 0;
@@ -135,11 +136,21 @@
         }
 
         .dropdown-item {
-            color: black;
+            color: rgb(0, 0, 0);
         }
 
         .dropdown-item:hover {
             background-color: rgba(255, 255, 0, 0.651);
+        }
+    }
+
+    @media (min-width: 769px) {
+        .dropdown-menu[data-bs-popper] {
+            top: 100%;
+            right: 0.5rem;
+            left: auto;
+            transform: translateX(0);
+            margin-top: var(--bs-dropdown-spacer);
         }
     }
 </style>
