@@ -20,47 +20,43 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md p-0 m-0 d-flex justify-content-center">
-            <div class="app-container d-flex justify-content-between align-items-center p-3">
-                <div class="d-flex align-items-center"> <!-- Flex container for logo and home link -->
-                    <div class="logo_dunder_mifflin mx-3">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Dunder_Mifflin%2C_Inc.svg/1200px-Dunder_Mifflin%2C_Inc.svg.png" alt="">
-                    </div>
-                    <a class="nav-link" href="{{ url('/') }}">{{ __('HOME') }}</a> <!-- Home link next to logo -->
+        <nav class="navbar navbar-expand-md p-0 m-0 d-flex justify-content-between">
+            <div class="app-container d-flex align-items-center p-3 w-100">
+                <div class="logo_dunder_mifflin mx-3">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Dunder_Mifflin%2C_Inc.svg/1200px-Dunder_Mifflin%2C_Inc.svg.png" alt="">
                 </div>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto"> <!-- Use ms-auto to push items to the right -->
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('LOGIN') }}</a>
-                            </li>
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
+                <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/') }}">{{ __('HOME') }}</a>
+                    </li>
+                    @guest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('LOGIN') }}</a>
+                        </li>
+                    @else
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }}
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('admin.dashboard') }}">{{ __('Dashboard') }}</a>
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
                                 </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item"
-                                        href="{{ route('admin.dashboard') }}">{{ __('Dashboard') }}</a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                    @endguest
+                </ul>
             </div>
         </nav>
 
@@ -105,5 +101,34 @@
         color: white; /* Change text color to black for better visibility */
         text-decoration: underline;
         background-color: rgba(255, 255, 0, 0.651);
+    }
+
+    @media (max-width: 768px) {
+        .navbar-nav {
+            display: flex !important; /* Forza la visualizzazione in flex */
+            flex-direction: column; /* Imposta la direzione verticale */
+        }
+
+        .navbar-collapse {
+            background-color: rgba(0, 0, 0, 0.563); /* Sfondo per il menu a discesa */
+            position: absolute; /* Cambia la posizione in assoluto */
+            top: 6rem; /* Imposta un margine superiore per compensare l'header fisso */
+            right: 0; /* Allinea il menu a destra */
+            left: 0; /* Allinea il menu a sinistra */
+            z-index: 1000; /* Assicurati che il dropdown sia sopra altri elementi */
+        }
+
+        .dropdown-menu {
+            position: relative; /* Cambia la posizione in relativa */
+            margin-top: 0; /* Rimuovi margine superiore */
+            width: 100%; /* Larghezza del dropdown */
+        }
+
+        .dropdown-item {
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(255, 255, 0, 0.651); /* Colore di sfondo al passaggio del mouse */
+        }
     }
 </style>
