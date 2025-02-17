@@ -20,9 +20,9 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md p-0 m-0 d-flex justify-content-between">
-            <div class="app-container d-flex align-items-center p-3 w-100">
-                <div class="logo_dunder_mifflin mx-3">
+        <nav class="navbar navbar-expand-md p-2 m-0 d-flex justify-content-between">
+            <div class="app-container d-flex align-items-center w-100">
+                <div class="logo_dunder_mifflin">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Dunder_Mifflin%2C_Inc.svg/1200px-Dunder_Mifflin%2C_Inc.svg.png" alt="">
                 </div>
 
@@ -67,14 +67,24 @@
 </body>
 
 </html>
-
 <style scoped>
-    .app-container {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .navbar {
         position: fixed;
         top: 0;
-        z-index: 999;
         width: 100%;
+        z-index: 999;
         padding: 0;
+    }
+
+    .app-container {
+        display: flex;
+        align-items: center;
+        width: 100%;
     }
 
     .logo_dunder_mifflin img {
@@ -87,7 +97,7 @@
     }
 
     .nav-link {
-        padding: 0.2rem 0.8rem;
+        padding: 0.5rem 1rem;
         color: white;
         text-shadow:
             -1px -1px 0 rgb(0, 0, 0),
@@ -112,7 +122,7 @@
         .navbar-collapse {
             background-color: rgba(0, 0, 0, 0.563);
             position: absolute;
-            top: 6rem;
+            top: 5rem;
             right: 0;
             left: 0;
             z-index: 1000;
@@ -125,6 +135,7 @@
         }
 
         .dropdown-item {
+            color: black;
         }
 
         .dropdown-item:hover {
