@@ -84,6 +84,7 @@
 
     .navbar-nav {
         margin: 0;
+    }
 
     .nav-link {
         padding: 0.2rem 0.8rem;
@@ -122,6 +123,10 @@
             margin-top: 0;
             width: 100%;
         }
+
+        .dropdown-item {
+        }
+
         .dropdown-item:hover {
             background-color: rgba(255, 255, 0, 0.651);
         }
