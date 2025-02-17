@@ -83,52 +83,47 @@
     }
 
     .navbar-nav {
-        margin: 0; /* Remove margin from navbar items */
-    }
+        margin: 0;
 
     .nav-link {
-        padding: 0.2rem 0.8rem; /* Adjust padding for nav links */
-        color: white; /* Change text color to black for better visibility */
+        padding: 0.2rem 0.8rem;
+        color: white;
         text-shadow:
             -1px -1px 0 rgb(0, 0, 0),
              1px -1px 0 rgb(0, 0, 0),
             -1px  1px 0 rgb(0, 0, 0),
-             1px  1px 0 rgb(0, 0, 0); /* Red outline */
+             1px  1px 0 rgb(0, 0, 0);
     }
 
     .nav-link:hover {
         border-radius: 2rem;
-        color: white; /* Change text color to black for better visibility */
+        color: white;
         text-decoration: underline;
         background-color: rgba(255, 255, 0, 0.651);
     }
 
     @media (max-width: 768px) {
         .navbar-nav {
-            display: flex !important; /* Forza la visualizzazione in flex */
-            flex-direction: column; /* Imposta la direzione verticale */
+            display: flex !important;
+            flex-direction: column;
         }
 
         .navbar-collapse {
-            background-color: rgba(0, 0, 0, 0.563); /* Sfondo per il menu a discesa */
-            position: absolute; /* Cambia la posizione in assoluto */
-            top: 6rem; /* Imposta un margine superiore per compensare l'header fisso */
-            right: 0; /* Allinea il menu a destra */
-            left: 0; /* Allinea il menu a sinistra */
-            z-index: 1000; /* Assicurati che il dropdown sia sopra altri elementi */
+            background-color: rgba(0, 0, 0, 0.563);
+            position: absolute;
+            top: 6rem;
+            right: 0;
+            left: 0;
+            z-index: 1000;
         }
 
         .dropdown-menu {
-            position: relative; /* Cambia la posizione in relativa */
-            margin-top: 0; /* Rimuovi margine superiore */
-            width: 100%; /* Larghezza del dropdown */
+            position: relative;
+            margin-top: 0;
+            width: 100%;
         }
-
-        .dropdown-item {
-        }
-
         .dropdown-item:hover {
-            background-color: rgba(255, 255, 0, 0.651); /* Colore di sfondo al passaggio del mouse */
+            background-color: rgba(255, 255, 0, 0.651);
         }
     }
 </style>
