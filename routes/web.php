@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\DashboardController; //<---- Import del controller precedentemente creato!
+use App\Http\Controllers\Admin\DashboardController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,19 +15,27 @@ use App\Http\Controllers\Admin\DashboardController; //<---- Import del controlle
 |
 */
 
+// Rotta per la home
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth'])
-    ->prefix('admin') //definisce il prefisso "admin/" per le rotte di questo gruppo
-    ->name('admin.') //definisce il pattern con cui generare i nomi delle rotte cioè "admin.qualcosa"
-    ->group(function () {
+// Disabilita la registrazione
+Auth::routes(['register' => false]); // Disabilita la registrazione
 
-        //Siamo nel gruppo quindi:
-        // - il percorso "/" diventa "admin/"
-        // - il nome della rotta ->name("dashboard") diventa ->name("admin.dashboard")
+// Reindirizza gli utenti che tentano di accedere alla pagina di registrazione
+Route::get('/register', function () {
+    return redirect('/'); // Reindirizza alla home
+});
+
+// Gruppo di rotte protette da autenticazione
+Route::middleware(['auth'])
+    ->prefix('admin') // Definisce il prefisso "admin/" per le rotte di questo gruppo
+    ->name('admin.') // Definisce il pattern con cui generare i nomi delle rotte
+    ->group(function () {
+        // Rotta per il dashboard
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     });
 
+// Includi le rotte di autenticazione
 require __DIR__ . '/auth.php';
