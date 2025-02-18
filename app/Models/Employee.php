@@ -25,4 +25,9 @@ class Employee extends Model
     {
         return $this->belongsTo(User::class, 'ID_User'); // Specify the foreign key
     }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'ID_Department'); // Specifica la chiave esterna
+    }
 }

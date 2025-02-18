@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\EmployeeController; // Assicurati di importare il controller dei dipendenti
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -35,6 +36,9 @@ Route::middleware(['auth'])
     ->group(function () {
         // Rotta per il dashboard
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+        // Rotte per gestire i dipendenti
+        Route::resource('employees', EmployeeController::class); // Aggiungi le rotte CRUD per i dipendenti
     });
 
 // Includi le rotte di autenticazione
