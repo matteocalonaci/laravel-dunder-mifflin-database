@@ -47,13 +47,14 @@
                                 <a href="{{ route('admin.employees.edit', $employee) }}" class="btn btn-warning btn-sm">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <form action="{{ route('admin.employees.destroy', $employee) }}" method="POST" style="display:inline;">
+                                <form action="{{ route('admin.employees.destroy', $employee->id) }}" method="POST"style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Sei sicuro di voler eliminare questo dipendente?');">
+                                    <button type="submit" class="btn btn-danger btn-sm">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
+
                             </div>
                         </div>
                     @endforeach
@@ -74,92 +75,91 @@
         background-position: center;
         height: 100vh;
         display: flex;
-        align-items: flex-start; /* Allinea il contenuto in alto */
+        align-items: flex-start;
         justify-content: center;
-        flex-direction: column; /* Disposizione verticale */
-    }
+        flex-direction: column;
+        }
 
     .container {
-        margin-top: 4rem;
-        max-width: 100%; /* Impedisce al contenitore di superare la larghezza della vista */
-        padding: 20px; /* Padding per il contenitore */
-        overflow: hidden; /* Nasconde il contenuto in eccesso */
+        margin-top: 3rem;
+        max-width: 100%;
+        padding: 20px;
+        overflow: hidden;
     }
 
     .table-container {
         display: flex;
         flex-direction: column;
-        background-color: rgba(255, 255, 255, 0.8); /* Sfondo bianco semi-trasparente */
-        border-radius: 10px; /* Aggiungi angoli arrotondati */
-        overflow: hidden; /* Nasconde il contenuto in eccesso */
-        max-height: 70vh; /* Limita l'altezza massima della tabella */
-        overflow-y: auto; /* Permette lo scroll verticale se necessario */
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        overflow: hidden;
+        max-height: 70vh;
+        overflow-y: auto;
     }
 
     .table-header, .table-row {
         display: flex;
         justify-content: space-between;
         padding: 10px;
-        border-bottom: 1px solid #ccc; /* Linea di separazione tra le righe */
+        border-bottom: 1px solid #ccc;
     }
 
     .table-header {
-        background-color: rgba(0, 0, 0, 0.1); /* Sfondo per l'intestazione */
+        background-color: rgba(0, 0, 0, 0.1);
         font-weight: bold;
     }
 
     .table-body {
-        overflow-y: auto; /* Permette lo scroll verticale se necessario */
+        overflow-y: auto;
     }
 
     .table-row {
-        display: flex; /* Mantiene le righe come flexbox */
-        padding: 10px; /* Padding per le righe */
-    }
+        display: flex;
+        padding: 10px;     }
 
     .table-header div, .table-row div {
-        flex: 1; /* Ogni cella occupa lo stesso spazio */
-        text-align: left; /* Allinea il testo a sinistra */
+        flex: 1;
+        text-align: left;
     }
 
     .col-id {
-        flex: 0 0 50px; /* Larghezza fissa per ID */
+        flex: 0 0 50px;
     }
 
     .col-nome {
-        flex: 0 0 100px; /* Larghezza fissa per Nome */
+        flex: 0 0 100px;
     }
 
     .col-cognome {
-        flex: 0 0 100px; /* Larghezza fissa per Cognome */
+        flex: 0 0 100px;
     }
 
     .col-email {
-        flex: 0 0 250px; /* Larghezza fissa per Email */
+        flex: 0 0 250px;
     }
 
     .col-spacer {
-        flex: 0 0 20px; /* Larghezza fissa per lo spazio tra Email e Telefono */
+        flex: 0 0 20px;
     }
 
     .col-telefono {
-        flex: 0 0 100px; /* Larghezza fissa per Telefono */
+        flex: 0 0 100px;
     }
 
     .col-dipartimento {
-        flex: 0 0 150px; /* Larghezza fissa per Dipartimento */
+        flex: 0 0 150px;
     }
 
     .col-azioni {
-        flex: 0 0 100px; /* Larghezza fissa per Azioni */
+        flex: 0 0 100px;
     }
 
     .email-column {
-        min-width: 250px; /* Imposta una larghezza minima per la colonna email */
-        max-width: 300px; /* Imposta una larghezza massima per la colonna email */
-        overflow: hidden; /* Nasconde il contenuto in eccesso */
-        text-overflow: ellipsis; /* Mostra i puntini di sospensione se il testo è troppo lungo */
-        white-space: nowrap; /* Impedisce il ritorno a capo del testo */
+        min-width: 250px;
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     h1 {
@@ -177,84 +177,83 @@
         .table-container {
         display: flex;
         flex-direction: column;
-        background-color: rgba(255, 255, 255, 0.8); /* Sfondo bianco semi-trasparente */
-        border-radius: 10px; /* Aggiungi angoli arrotondati */
-        overflow: hidden; /* Nasconde il contenuto in eccesso */
-        max-height: 60vh; /* Limita l'altezza massima della tabella */
-        overflow-y: auto; /* Permette lo scroll verticale se necessario */
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        overflow: hidden;
+        max-height: 60vh;
+        overflow-y: auto;
     }
         .table-header {
-            display: none; /* Nasconde l'intestazione su schermi piccoli */
+            display: none;
         }
 
         .table-row {
-            flex-direction: column; /* Rende le righe verticali su schermi piccoli */
-            padding: 5px; /* Riduce il padding per schermi piccoli */
+            flex-direction: column;
+            padding: 5px;
         }
 
         .table-row div {
-            display: flex; /* Disposizione flessibile per ogni cella */
-            justify-content: flex-start; /* Allinea il titolo e il valore a sinistra */
-            margin-bottom: 5px; /* Spazio tra le righe */
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 5px;
         }
 
         .col-id {
-            flex: 1; /* Occupa tutto lo spazio disponibile */
+            flex: 1;
         }
 
         .col-nome {
-            flex: 1; /* Occupa tutto lo spazio disponibile */
+            flex: 1;
         }
 
         .col-cognome {
-            flex: 1; /* Occupa tutto lo spazio disponibile */
+            flex: 1;
         }
 
         .col-email {
-            flex: 1; /* Occupa tutto lo spazio disponibile */
+            flex: 1;
         }
 
         .col-telefono {
-            flex: 1; /* Occupa tutto lo spazio disponibile */
+            flex: 1;
         }
 
         .col-dipartimento {
-            flex: 1; /* Occupa tutto lo spazio disponibile */
+            flex: 1;
         }
 
         .col-azioni {
-            flex: 1; /* Occupa tutto lo spazio disponibile */
+            flex: 1;
         }
 
-        /* Aggiungi i titoli accanto ai valori */
         .col-id::before {
-            content: "ID: "; /* Aggiunge il titolo ID */
-            font-weight: bold; /* Rende il titolo in grassetto */
+            content: "ID: ";
+            font-weight: bold;
         }
 
         .col-nome::before {
-            content: "Nome: "; /* Aggiunge il titolo Nome */
-            font-weight: bold; /* Rende il titolo in grassetto */
+            content: "Nome: ";
+            font-weight: bold;
         }
 
         .col-cognome::before {
-            content: "Cognome: "; /* Aggiunge il titolo Cognome */
-            font-weight: bold; /* Rende il titolo in grassetto */
+            content: "Cognome: ";
+            font-weight: bold;
         }
 
         .col-email::before {
-            content: "Email: "; /* Aggiunge il titolo Email */
-            font-weight: bold; /* Rende il titolo in grassetto */
+            content: "Email: ";
+            font-weight: bold;
         }
 
         .col-telefono::before {
-            content: "Telefono: "; /* Aggiunge il titolo Telefono */
-            font-weight: bold; /* Rende il titolo in grassetto */
+            content: "Telefono: ";
+            font-weight: bold;
         }
 
         .col-dipartimento::before {
-            content: "Dipartimento: "; /* Aggiunge il titolo Dipartimento */
-            font-weight: bold; /* Rende il titolo in grassetto */
+            content: "Dipartimento: ";
+            font-weight: bold;
         }
 
     .btn-info{
