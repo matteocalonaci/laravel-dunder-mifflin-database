@@ -63,6 +63,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
+        $employee->load(['orders.product', 'orders.customer']);
         // Mostra i dettagli di un dipendente specifico
         return view('admin.employees.show', compact('employee'));
     }
