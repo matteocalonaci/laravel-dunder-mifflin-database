@@ -82,44 +82,44 @@
 
 <style>
     html, body {
-        height: 100%; /* Assicurati che html e body occupino l'intera altezza */
-        margin: 0; /* Rimuovi il margine predefinito */
+        height: 100%; /
+        margin: 0;
     }
 
     .background-image {
         background-image: url('https://s.wsj.net/public/resources/images/MK-BQ669_DUNDER_G_20111127202517.jpg');
-        background-size: cover; /* Assicura che l'immagine copra l'intero sfondo */
-        background-position: center; /* Centra l'immagine */
+        background-size: cover;
+        background-position: center;
         display: flex;
-        align-items: flex-start; /* Allinea gli elementi all'inizio */
-        justify-content: center; /* Centra il contenuto orizzontalmente */
+        align-items: flex-start;
+        justify-content: center;
     }
 
     .container {
-        flex: 1; /* Permette al contenitore di crescere e riempire lo spazio disponibile */
+        flex: 1;
         display: flex;
-        flex-direction: column; /* Impila i figli verticalmente */
-        justify-content: flex-start; /* Allinea i figli in alto */
-        padding: 20px; /* Aggiungi un padding per il contenuto */
-        height: 100%; /* Assicura che il contenitore occupi l'intera altezza */
-        overflow-y: auto; /* Permette lo scorrimento verticale */
-        scrollbar-width: none; /* Nasconde la scrollbar in Firefox */
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 20px;
+        height: 100%;
+        overflow-y: auto;
+        scrollbar-width: none;
     }
 
     .container::-webkit-scrollbar {
-        display: none; /* Nasconde la scrollbar in Chrome, Safari e Edge */
+        display: none;
     }
 
     .card {
-        background-color: rgba(255, 255, 255, 0.9); /* Sfondo bianco con 90% di opacità */
-        border: none; /* Rimuovi il bordo */
-        border-radius: 10px; /* Angoli arrotondati */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombra per profondità */
-        margin-bottom: 20px; /* Margine inferiore per separare le card */
+        background-color: rgba(255, 255, 255, 0.9);
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
     }
 
     .sales-summary {
-        background: rgba(248, 249, 250, 0.8); /* Sfondo chiaro con trasparenza */
+        background: rgba(248, 249, 250, 0.8);
         padding: 20px;
         border-radius: 8px;
         margin-top: 20px;
@@ -150,7 +150,7 @@
     }
 
     h1 {
-        margin-top: 6rem; /* Aggiungi margine superiore per evitare sovrapposizioni con l'header */
+        margin-top: 6rem;
         text-shadow:
             -1px -1px 0 rgb(0, 0, 0),
              1px -1px 0 rgb(0, 0, 0),
@@ -160,7 +160,7 @@
 
     @media (max-width: 768px) {
         h1 {
-            margin-top: 8rem; /* Aggiusta il margine superiore per dispositivi mobili */
+            margin-top: 8rem;
         }
     }
 </style>
