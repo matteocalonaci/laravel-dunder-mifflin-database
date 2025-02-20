@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +31,8 @@ class EmployeeController extends Controller
     {
         // Mostra il modulo per creare un nuovo dipendente (solo per admin)
         if (Auth::check() && Auth::user()->role === 'admin') {
-            return view('admin.employees.create');
+            $departments = Department::all(); // Get all departments
+            return view('admin.employees.create', compact('departments'));
         }
 
         return redirect('/')->with('error', 'Accesso non autorizzato.');
@@ -45,19 +47,28 @@ class EmployeeController extends Controller
         $request->validate([
             'First_Name' => 'required|string|max:255',
             'Last_Name' => 'required|string|max:255',
-            'ID_Department' => 'required|integer',
-            'ID_Office' => 'required|integer',
+            'ID_Department' => 'required|integer|exists:departments,id', // Ensure the department exists
             'Phone' => 'required|string|max:15',
             'Email' => 'required|email|unique:employees,email',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048' // Validazione dell'immagine
         ]);
 
+        // Gestisci il caricamento dell'immagine
+        $imagePath = $request->file('image')->store('images', 'public');
+
         // Creazione del nuovo dipendente
-        Employee::create($request->all());
+        Employee::create([
+            'First_Name' => $request->First_Name,
+            'Last_Name' => $request->Last_Name,
+            'ID_Department' => $request->ID_Department,
+            'ID_Office' => 1, // Imposta l'ID dell'ufficio a 1
+            'Phone' => $request->Phone,
+            'Email' => $request->Email,
+            'image' => $imagePath, // Salva il percorso dell'immagine
+        ]);
 
         return redirect()->route('admin.employees.index')->with('success', 'Dipendente creato con successo.');
     }
-
     /**
      * Display the specified resource.
      */
@@ -71,37 +82,32 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Employee $employee)
-    {
-        // Mostra il modulo per modificare un dipendente (solo per admin)
-        if (Auth::check() && Auth::user()->role === 'admin') {
-            return view('admin.employees.edit', compact('employee'));
-        }
+// app/Http/Controllers/EmployeeController.php
 
-        return redirect('/')->with('error', 'Accesso non autorizzato.');
-    }
+public function edit(Employee $employee)
+{
+    // Get all departments to populate the dropdown
+    $departments = Department::all();
+    return view('admin.employees.edit', compact('employee', 'departments'));
+}
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Employee $employee)
-    {
-        // Validazione dei dati
-        $request->validate([
-            'First_Name' => 'required|string|max:255',
-            'Last_Name' => 'required|string|max:255',
-            'ID_Department' => 'required|integer',
-            'ID_Office' => 'required|integer',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validazione dell'immagine (opzionale)
-            'Phone' => 'required|string|max:15',
-            'Email' => 'required|email|unique:employees,email,' . $employee->id,
-        ]);
+public function update(Request $request, Employee $employee)
+{
+    $request->validate([
+        'Email' => 'required|email',
+        'Phone' => 'required|string|max:15',
+        'ID_Department' => 'required|exists:departments,id', // Ensure the department exists
+    ]);
 
-        // Aggiorna il dipendente
-        $employee->update($request->all());
+    // Update the employee's details
+    $employee->update([
+        'Email' => $request->Email,
+        'Phone' => $request->Phone,
+        'ID_Department' => $request->ID_Department,
+    ]);
 
-        return redirect()->route('admin.employees.index')->with('success', 'Dipendente aggiornato con successo.');
-    }
+    return redirect()->route('admin.employees.index')->with('success', 'Dettagli dipendente aggiornati con successo.');
+}
 
     /**
      * Remove the specified resource from storage.
