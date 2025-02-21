@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\EmployeeController; // Assicurati di importare il controller dei dipendenti
+use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -39,6 +41,8 @@ Route::middleware(['auth'])
 
         // Rotte per gestire i dipendenti
         Route::resource('employees', EmployeeController::class); // Aggiungi le rotte CRUD per i dipendenti
+        Route::resource('orders', OrderController::class);
+        Route::resource('offices', OfficeController::class);
     });
 
 // Includi le rotte di autenticazione
