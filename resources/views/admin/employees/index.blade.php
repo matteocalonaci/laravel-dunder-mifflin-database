@@ -170,22 +170,99 @@
             1px  1px 0 rgb(0, 0, 0);
     }
 
-    .container {
-            margin-top: 4rem;
-        }
+    @media (max-width: 768px) {
+        .container {
+    margin-top: 4rem;
+    }
         .table-container {
-            max-height: 60vh;
-        }
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        overflow: hidden;
+        max-height: 60vh;
+        overflow-y: auto;
+    }
         .table-header {
             display: none;
         }
+
         .table-row {
             flex-direction: column;
             padding: 5px;
         }
+
         .table-row div {
             display: flex;
             justify-content: flex-start;
             margin-bottom: 5px;
         }
+
+        .col-id {
+            flex: 1;
+        }
+
+        .col-nome {
+            flex: 1;
+        }
+
+        .col-cognome {
+            flex: 1;
+        }
+
+        .col-email {
+            flex: 1;
+        }
+
+        .col-telefono {
+            flex: 1;
+        }
+
+        .col-dipartimento {
+            flex: 1;
+        }
+
+        .col-azioni {
+            flex: 1;
+        }
+
+        .col-id::before {
+            content: "ID: ";
+            font-weight: bold;
+        }
+
+        .col-nome::before {
+            content: "Nome: ";
+            font-weight: bold;
+        }
+
+        .col-cognome::before {
+            content: "Cognome: ";
+            font-weight: bold;
+        }
+
+        .col-email::before {
+            content: "Email: ";
+            font-weight: bold;
+        }
+
+        .col-telefono::before {
+            content: "Telefono: ";
+            font-weight: bold;
+        }
+
+        .col-dipartimento::before {
+            content: "Dipartimento: ";
+            font-weight: bold;
+        }
+
+    .btn-info{
+        width: 2rem;
+        height: 1.5rem;
+    }
+    .btn-warning{
+        width: 2rem;
+        height: 1.5rem;
+    }
+    }
 </style>
