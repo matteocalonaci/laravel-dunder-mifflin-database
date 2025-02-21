@@ -39,16 +39,16 @@
                         <div class="col-prodotto">{{ $order->product->Product_Name }}</div>
                         <div class="col-quantita">{{ $order->Quantity }}</div>
                         <div class="col-azioni">
-                            <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-info btn-sm mx-2">
+                            <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-info btn-sm margin-dx">
                                  <i class="fas fa-eye"></i>
                             </a>
-                            <a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-warning btn-sm mx-2">
+                            <a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-warning btn-sm margin-dx">
                                  <i class="fas fa-edit"></i>
                             </a>
                             <form action="{{ route('admin.orders.destroy', $order->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm mx-2">
+                                <button type="submit" class="btn btn-danger btn-sm margin-dx">
                                      <i class="fas fa-trash"></i>
                                 </button>
                             </form>
@@ -60,7 +60,7 @@
 
         <div class="pagination-container mt-3">
             <div class="pagination-wrapper">
-                {{ $orders->links('pagination::bootstrap-4') }} <!-- Mostra i link di paginazione -->
+                {{ $orders->links('pagination::bootstrap-4') }}
             </div>
         </div>
     </div>
@@ -83,13 +83,13 @@
         margin-top: 3rem;
         max-width: 100%;
         padding: 20px;
-        height: 100%; /* Assicura che il contenitore occupi l'intera altezza */
-        overflow-y: auto; /* Permette lo scorrimento verticale */
-        scrollbar-width: none; /* Nasconde la scrollbar in Firefox */
+        height: 100%;
+        overflow-y: auto;
+        scrollbar-width: none;
     }
 
     .container::-webkit-scrollbar {
-        display: none; /* Nasconde la scrollbar in Chrome, Safari e Edge */
+        display: none;
     }
 
     .table-container {
@@ -128,31 +128,31 @@
     }
 
     .col-id {
-        flex: 0 0 80px; /* Larghezza fissa per ID */
+        flex: 0 0 80px;
     }
 
     .col-data {
-        flex: 0 0 100px; /* Larghezza fissa per Data */
+        flex: 0 0 100px;
     }
 
     .col-dipendente {
-        flex: 0 0 140; /* Maggiore larghezza per Dipendente */
+        flex: 0 0 140px;
     }
 
     .col-cliente {
-        flex: 0 0 200px; /* Maggiore larghezza per Cliente */
+        flex: 0 0 200px;
     }
 
     .col-prodotto {
-        flex: 0 0 230px; /* Maggiore larghezza per Prodotto */
+        flex: 0 0 230px;
     }
 
     .col-quantita {
-        flex: 0 0 70px; /* Larghezza fissa per Quantità */
+        flex: 0 0 70px;
     }
 
     .col-azioni {
-        flex: 0 0 110px; /* Larghezza fissa per Azioni */
+        flex: 0 0 110px;
     }
 
     h1 {
@@ -164,13 +164,13 @@
     }
 
     .pagination-container {
-        overflow-x: auto; /* Permette lo scorrimento orizzontale */
+        overflow-x: auto;
     }
 
     .pagination-wrapper {
-        display: flex; /* Usa flexbox per allineare i link di paginazione */
-        justify-content: center; /* Centra i link di paginazione */
-        padding: 10px 0; /* Padding per i link di paginazione */
+        display: flex;
+        justify-content: center;
+        padding: 10px 0;
     }
 
     @media (max-width: 768px) {
@@ -186,11 +186,11 @@
         }
 
         .table-header {
-            display: none; /* Nasconde l'intestazione della tabella */
+            display: none;
         }
 
         .table-row {
-            flex-direction: column; /* Cambia la direzione delle righe in colonna */
+            flex-direction: column;
             padding: 5px;
         }
 
@@ -198,7 +198,7 @@
             display: flex;
             justify-content: flex-start;
             margin-bottom: 5px;
-            width: 100%; /* Assicura che le celle occupino l'intera larghezza */
+            width: 100%;
         }
 
         .col-id::before {
@@ -236,31 +236,31 @@
             font-weight: bold;
         }
         .col-id {
-        flex: 0 0 30px; /* Larghezza fissa per ID */
+        flex: 0 0 30px;
     }
 
     .col-data {
-        flex: 0 0 30px; /* Larghezza fissa per Data */
+        flex: 0 0 30px;
     }
 
     .col-dipendente {
-        flex: 0 0 30; /* Maggiore larghezza per Dipendente */
+        flex: 0 0 30px;
     }
 
     .col-cliente {
-        flex: 0 0 30px; /* Maggiore larghezza per Cliente */
+        flex: 0 0 30px;
     }
 
     .col-prodotto {
-        flex: 0 0 30px; /* Maggiore larghezza per Prodotto */
+        flex: 0 0 30px;
     }
 
     .col-quantita {
-        flex: 0 0 30px; /* Larghezza fissa per Quantità */
+        flex: 0 0 30px;
     }
 
     .col-azioni {
-        flex: 0 0 30px; /* Larghezza fissa per Azioni */
+        flex: 0 0 30px;
     }
 
         .btn-info {
@@ -271,6 +271,10 @@
         .btn-warning {
             width: 2rem;
             height: 1.5rem;
+        }
+
+        .margin-dx{
+            margin-right: 0.5rem;
         }
     }
 </style>
