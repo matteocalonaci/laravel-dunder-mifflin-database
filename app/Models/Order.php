@@ -11,24 +11,26 @@ class Order extends Model
 
     protected $fillable = [
         'Order_Date',
-        'ID_User',
-        'ID_Customer',
-        'ID_Product',
         'Quantity',
+        'ID_User', // Foreign key to Employee
+        'ID_Product', // Foreign key to Product
+        'ID_Customer', // Foreign key to Customer
     ];
 
-    public function employee()
+ // Nel modello Order
+// Order Model
+public function employee()
 {
-    return $this->belongsTo(Employee::class, 'ID_User');
+    return $this->belongsTo(Employee::class, 'ID_User'); // 'ID_User' è la chiave esterna
 }
 
-public function customer()
-{
-    return $this->belongsTo(Customer::class, 'ID_Customer');
-}
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'ID_Customer');
+    }
 
-public function product()
-{
-    return $this->belongsTo(Product::class, 'ID_Product');
-}
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'ID_Product');
+    }
 }

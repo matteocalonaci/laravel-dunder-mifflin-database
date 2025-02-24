@@ -58,7 +58,6 @@ class OrderController extends Controller
         return view('admin.orders.edit', compact('order', 'employees', 'customers', 'products')); // Restituisce la vista per modificare l'ordine
     }
 
-    // Aggiorna un ordine esistente nel database
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -70,10 +69,19 @@ class OrderController extends Controller
         ]);
 
         $order = Order::findOrFail($id); // Trova l'ordine per ID
-        $order->update($request->all()); // Aggiorna l'ordine
-        return redirect()->route('admin.orders.index')->with('success', 'Ordine aggiornato con successo.'); // Reindirizza alla lista degli ordini
+try {
+    $order->update([
+        'Order_Date' => $request->Order_Date,
+        'Quantity' => $request->Quantity,
+        'ID_User' => $request->ID_User,
+        'ID_Product' => $request->ID_Product,
+        'ID_Customer' => $request->ID_Customer,
+    ]);
+} catch (\Exception $e) {
+    // Mostra il messaggio di errore
+    dd($e->getMessage());
+}        return redirect()->route('admin.orders.index')->with('success', 'Ordine aggiornato con successo.'); // Reindirizza alla lista degli ordini
     }
-
     // Elimina un ordine dal database
     public function destroy($id)
     {
