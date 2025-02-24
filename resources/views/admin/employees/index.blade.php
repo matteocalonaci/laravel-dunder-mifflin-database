@@ -26,7 +26,6 @@
                     <div class="col-cognome">Cognome</div>
                     <div class="col-email email-column">Email</div>
                     <div class="col-spacer"></div>
-                    <div class="col-telefono">Telefono</div>
                     <div class="col-dipartimento">Dipartimento</div>
                     <div class="col-azioni">Azioni</div>
                 </div>
@@ -38,7 +37,6 @@
                             <div class="col-cognome">{{ $employee->Last_Name }}</div>
                             <div class="col-email email-column">{{ $employee->Email }}</div>
                             <div class="col-spacer"></div>
-                            <div class="col-telefono">{{ $employee->Phone }}</div>
                             <div class="col-dipartimento">{{ $employee->department ? $employee->department->Department_Name : 'N/A' }}</div>
                             <div class="col-azioni">
                                 <a href="{{ route('admin.employees.show', $employee) }}" class="btn btn-info btn-sm">
@@ -47,14 +45,13 @@
                                 <a href="{{ route('admin.employees.edit', $employee) }}" class="btn btn-warning btn-sm">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <form action="{{ route('admin.employees.destroy', $employee->id) }}" method="POST"style="display:inline;">
+                                <form action="{{ route('admin.employees.destroy', $employee->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
-
                             </div>
                         </div>
                     @endforeach
@@ -78,7 +75,7 @@
         align-items: flex-start;
         justify-content: center;
         flex-direction: column;
-        }
+    }
 
     .container {
         margin-top: 3rem;
@@ -115,7 +112,8 @@
 
     .table-row {
         display: flex;
-        padding: 10px;     }
+        padding: 10px;
+    }
 
     .table-header div, .table-row div {
         flex: 1;
@@ -135,15 +133,11 @@
     }
 
     .col-email {
-        flex: 0 0 250px;
+        flex: 0 0 200px;
     }
 
     .col-spacer {
         flex: 0 0 20px;
-    }
-
-    .col-telefono {
-        flex: 0 0 100px;
     }
 
     .col-dipartimento {
@@ -172,17 +166,17 @@
 
     @media (max-width: 768px) {
         .container {
-    margin-top: 4rem;
-    }
+            margin-top: 4rem;
+        }
         .table-container {
-        display: flex;
-        flex-direction: column;
-        background-color: rgba(255, 255, 255, 0.8);
-        border-radius: 10px;
-        overflow: hidden;
-        max-height: 60vh;
-        overflow-y: auto;
-    }
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            overflow: hidden;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
         .table-header {
             display: none;
         }
@@ -209,12 +203,7 @@
         .col-cognome {
             flex: 1;
         }
-
         .col-email {
-            flex: 1;
-        }
-
-        .col-telefono {
             flex: 1;
         }
 
@@ -246,23 +235,23 @@
             font-weight: bold;
         }
 
-        .col-telefono::before {
-            content: "Telefono: ";
-            font-weight: bold;
-        }
-
         .col-dipartimento::before {
             content: "Dipartimento: ";
             font-weight: bold;
         }
 
-    .btn-info{
-        width: 2rem;
-        height: 1.5rem;
-    }
-    .btn-warning{
-        width: 2rem;
-        height: 1.5rem;
-    }
+        .col-azioni::before {
+            content: "Azioni: ";
+            font-weight: bold;
+        }
+
+        .btn-info {
+            width: 2rem;
+            height: 1.5rem;
+        }
+        .btn-warning {
+            width: 2rem;
+            height: 1.5rem;
+        }
     }
 </style>

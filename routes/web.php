@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Auth;
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| Qui puoi registrare le rotte web per la tua applicazione. Queste
+| rotte vengono caricate dal RouteServiceProvider e tutte saranno
+| assegnate al gruppo middleware "web". Fai qualcosa di grande!
 |
 */
 
@@ -41,8 +41,15 @@ Route::middleware(['auth'])
 
         // Rotte per gestire i dipendenti
         Route::resource('employees', EmployeeController::class); // Aggiungi le rotte CRUD per i dipendenti
-        Route::resource('orders', OrderController::class);
-        Route::resource('offices', OfficeController::class);
+
+        // Rotte per gestire gli ordini
+        Route::resource('orders', OrderController::class); // Aggiungi le rotte CRUD per gli ordini
+
+        // Rotte per gestire gli uffici
+        Route::resource('offices', OfficeController::class); // Aggiungi le rotte CRUD per gli uffici
+
+        // Rotta per le statistiche
+        Route::get('statistics', [EmployeeController::class, 'statistics'])->name('statistics.index'); // Aggiungi la rotta per le statistiche
     });
 
 // Includi le rotte di autenticazione

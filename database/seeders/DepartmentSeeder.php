@@ -40,6 +40,12 @@ class DepartmentSeeder extends Seeder
                 'ID_Office' => 1,
                 'Number_of_Employees' => 1, // Total employees in this department
             ],
+            // Added Regional Manager department
+            [
+                'Department_Name' => 'Manager',
+                'ID_Office' => 1, // You can change this if the office ID is different for the regional manager
+                'Number_of_Employees' => 1, // Typically, this department would have one employee (the regional manager)
+            ],
         ];
 
         DB::table('departments')->insert($departments);

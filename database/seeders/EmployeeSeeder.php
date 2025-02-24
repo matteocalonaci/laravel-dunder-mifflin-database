@@ -10,8 +10,6 @@ class EmployeeSeeder extends Seeder
     public function run()
     {
 
-        DB::table('employees')->whereNull('image')->delete();
-
         $employees = [
             // Sales Department
             [
@@ -63,6 +61,14 @@ class EmployeeSeeder extends Seeder
                 'Phone' => '123-456-7806',
                 'Email' => 'stanley.hudson@example.com',
                 'image' => 'https://img.nbc.com/files/images/2013/11/12/stanley-500x500.jpg', // Sample image URL
+            ],
+            [
+                'First_Name' => 'Ryan',
+                'Last_Name' => 'Howard',
+                'ID_Department' => 1,
+                'ID_Office' => 1,
+                'Phone' => '123-456-7895',
+                'image' => 'https://static.wikia.nocookie.net/theoffice/images/e/e0/Character_-_RyanHoward.PNG/revision/latest/smart/width/386/height/259?cb=20200414174545',
             ],
             [
                 'First_Name' => 'Toby',
@@ -126,18 +132,18 @@ class EmployeeSeeder extends Seeder
             ],
         ];
 
-        foreach ($employees as $employee) {
-            DB::table('employees')->insert([ // Replace 'employees' with your actual table name
-                'First_Name' => $employee['First_Name'],
-                'Last_Name' => $employee['Last_Name'],
-                'ID_User' => $employee['ID_User'],
-                'ID_Department' => $employee['ID_Department'],
-                'ID_Office' => $employee['ID_Office'],
-                'Phone' => $employee['Phone'],
-                'Email' => $employee['Email'],
-                'image' => $employee['image'],
-            ]);
-        }
+        // foreach ($employees as $employee) {
+        //     DB::table('employees')->insert([ // Replace 'employees' with your actual table name
+        //         'First_Name' => $employee['First_Name'],
+        //         'Last_Name' => $employee['Last_Name'],
+        //         'ID_User' => $employee['ID_User'],
+        //         'ID_Department' => $employee['ID_Department'],
+        //         'ID_Office' => $employee['ID_Office'],
+        //         'Phone' => $employee['Phone'],
+        //         'Email' => $employee['Email'],
+        //         'image' => $employee['image'],
+        //     ]);
+        // }
 
 
     }

@@ -4,11 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use App\Models\Employee;
+use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
 {
+    public function statistics()
+    {
+        // Logica per ottenere i primi tre venditori del mese
+        $topSellers = Order::select('ID_User', DB::raw('SUM(Quantity) as total_sales'))
+            ->whereMonth('Order_Date', now()->month) // Assicurati di usare il campo corretto per la data
+            ->groupBy('ID_User') // Raggruppa per ID dell'utente
+            ->orderBy('total_sales', 'desc')
+            ->take(3) // Limita i risultati ai primi 3
+            ->get(); // Usa get() per ottenere una collezione di risultati
+
+        // Recupera gli utenti associati ai migliori venditori
+        foreach ($topSellers as $seller) {
+            $seller->employee = Employee::find($seller->ID_User); // Assicurati di importare il modello Employee
+        }
+
+        return view('admin.statistics.index', compact('topSellers'));
+    }
     /**
      * Display a listing of the resource.
      */
@@ -24,9 +44,8 @@ class EmployeeController extends Controller
         // Se non è un admin, mostra solo il profilo dell'utente autenticato
         return redirect('/')->with('error', 'Accesso non autorizzato.');
     }
-    /**
-     * Show the form for creating a new resource.
-     */
+
+
     public function create()
     {
         // Mostra il modulo per creare un nuovo dipendente (solo per admin)
