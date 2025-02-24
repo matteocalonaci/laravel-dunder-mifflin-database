@@ -18,11 +18,13 @@ class CreateEmployeesTable extends Migration
             $table->unsignedBigInteger('ID_Office');
             $table->string('Phone');
             $table->string('Email');
+            $table->date('hired_at')->nullable(); // Add hired_at column (nullable)
             $table->timestamps();
 
             // Define the foreign key constraint
             $table->foreign('ID_User')->references('id')->on('users')->onDelete('cascade');
         });
+
     }
 
     public function down()
