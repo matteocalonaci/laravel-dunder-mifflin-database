@@ -20,6 +20,11 @@ class Employee extends Model
         'Email',
     ];
 
+    public function orders()
+{
+    return $this->hasMany(Order::class, 'ID_User'); // 'ID_User' è la chiave esterna in 'orders'
+}
+
     // Define the inverse of the relationship
     public function user()
     {
@@ -31,8 +36,4 @@ class Employee extends Model
         return $this->belongsTo(Department::class, 'ID_Department'); // Specifica la chiave esterna
     }
 
-    public function orders()
-    {
-        return $this->hasMany(Order::class, 'ID_User', 'ID_User'); // Specify the foreign key in orders and local key in employees
-    }
 }

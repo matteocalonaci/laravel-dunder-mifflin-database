@@ -18,22 +18,30 @@
                         <p><strong>Telefono:</strong> {{ $employee->Phone }}</p>
                         <p><strong>Email:</strong> {{ $employee->Email }}</p>
                         <p><strong>Dipartimento:</strong> {{ $employee->department ? $employee->department->Department_Name : 'N/A' }}</p>
+                        <p><strong>Data di Assunzione:</strong> {{ $employee->hired_at ? \Carbon\Carbon::parse($employee->hired_at)->format('d/m/Y') : 'N/A' }}</p>
                     </div>
+
                     <div class="col-md-3 text-center">
                         @if($employee->image)
-                        <img src="{{ $employee->image }}" alt="Immagine di {{ $employee->First_Name }}" class="img-fluid custom-image" style="width: 100%; max-width: 300px;">
+                        <img src="{{ $employee->image }}" alt="Immagine di {{ $employee->First_Name }}" class="img-fluid custom-image" style="width: 100%; max-width: 300px; max-height: 300px">
                         @else
                             <p>Immagine non disponibile.</p>
                         @endif
                     </div>
                 </div>
                 <div class="mt-3">
-                    <a href="{{ route('admin.employees.index') }}" class="btn btn-primary">Torna alla lista</a>
-                    <a href="{{ route('admin.employees.edit', $employee->id) }}" class="btn btn-warning">Modifica</a>
+                    <a href="{{ route('admin.employees.index') }}" class="btn btn-primary">
+                        <i class="fas fa-list"></i>
+                    </a>
+                    <a href="{{ route('admin.employees.edit', $employee->id) }}" class="btn btn-warning">
+                        <i class="fas fa-edit"></i>
+                    </a>
                     <form action="{{ route('admin.employees.destroy', $employee->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Sei sicuro di voler eliminare questo dipendente?');">Elimina</button>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Sei sicuro di voler eliminare questo dipendente?');">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </form>
                 </div>
             </div>
@@ -54,26 +62,28 @@
                 </div>
             </div>
             <h4>Transazioni Recenti</h4>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Data</th>
-                        <th>Prodotti</th>
-                        <th>Quantità</th>
-                        <th>Cliente</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($employee->orders as $order)
-                    <tr>
-                        <td>{{ $order->Order_Date->format('d/m/Y') }}</td>
-                        <td>{{ $order->product->name ?? 'N/A' }}</td>
-                        <td>{{ $order->Quantity }}</td>
-                        <td>{{ $order->customer->Customer_Name }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Prodotti</th>
+                            <th>Quantità</th> <!-- Mantieni "Quantità" per desktop e tablet -->
+                            <th>Cliente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($employee->orders->sortByDesc('Order_Date')->take(5) as $order)
+                        <tr>
+                            <td data-label="Data">{{ \Carbon\Carbon::parse($order->Order_Date)->format('d/m/Y') }}</td>
+                            <td data-label="Prodotti">{{ $order->product->Product_Name ?? 'N/A' }}</td>
+                            <td data-label="Quantità">{{ $order->Quantity }}</td> <!-- Mantieni "Quantità" -->
+                            <td data-label="Cliente">{{ $order->customer->Customer_Name }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
         @endif
     </div>
@@ -82,7 +92,7 @@
 
 <style>
     html, body {
-        height: 100%; /
+        height: 100%;
         margin: 0;
     }
 
@@ -91,6 +101,7 @@
         background-size: cover;
         background-position: center;
         display: flex;
+        min-height: 100vh;
         align-items: flex-start;
         justify-content: center;
     }
@@ -161,6 +172,26 @@
     @media (max-width: 768px) {
         h1 {
             margin-top: 8rem;
+        }
+
+        .table thead {
+            display: none;
+        }
+        .table tr {
+            display: block;
+            margin-bottom: 15px;
+        }
+        .table td {
+            display: block;
+            padding: 10px;
+            border: none;
+            position: relative;
+        }
+        .table td::before {
+            content: attr(data-label);
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
         }
     }
 </style>
