@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable; // Change this line
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable // Change this line
+class User extends Authenticatable
 {
-    use HasFactory, Notifiable; // Add Notifiable trait
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'name',
@@ -23,5 +23,11 @@ class User extends Authenticatable // Change this line
         'remember_token',
     ];
 
-    public $timestamps = true; // This is true by default, but you can specify it explicitly
+    public $timestamps = true;
+
+    // Definisci la relazione con il modello Employee
+    public function employee()
+    {
+        return $this->hasOne(Employee::class, 'ID_User'); // Assicurati che 'ID_User' sia il campo corretto
+    }
 }

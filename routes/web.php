@@ -2,21 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\EmployeeController; // Assicurati di importare il controller dei dipendenti
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Auth;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Qui puoi registrare le rotte web per la tua applicazione. Queste
-| rotte vengono caricate dal RouteServiceProvider e tutte saranno
-| assegnate al gruppo middleware "web". Fai qualcosa di grande!
-|
-*/
 
 // Rotta per la home
 Route::get('/', function () {
@@ -24,32 +13,32 @@ Route::get('/', function () {
 });
 
 // Disabilita la registrazione
-Auth::routes(['register' => false]); // Disabilita la registrazione
+Auth::routes(['register' => false]);
 
 // Reindirizza gli utenti che tentano di accedere alla pagina di registrazione
 Route::get('/register', function () {
-    return redirect('/'); // Reindirizza alla home
+    return redirect('/');
 });
 
-// Gruppo di rotte protette da autenticazione
+// Gruppo di rotte protette da autenticazione per admin
 Route::middleware(['auth'])
-    ->prefix('admin') // Definisce il prefisso "admin/" per le rotte di questo gruppo
-    ->name('admin.') // Definisce il pattern con cui generare i nomi delle rotte
+    ->prefix('admin')
+    ->name('admin.')
     ->group(function () {
-        // Rotta per il dashboard
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::resource('employees', EmployeeController::class); // Admin può gestire i dipendenti
+        Route::resource('orders', OrderController::class); // Admin può gestire gli ordini
+        Route::resource('offices', OfficeController::class); // Admin può gestire gli uffici
+        Route::get('statistics', [EmployeeController::class, 'statistics'])->name('statistics.index');
+    });
 
-        // Rotte per gestire i dipendenti
-        Route::resource('employees', EmployeeController::class); // Aggiungi le rotte CRUD per i dipendenti
-
-        // Rotte per gestire gli ordini
-        Route::resource('orders', OrderController::class); // Aggiungi le rotte CRUD per gli ordini
-
-        // Rotte per gestire gli uffici
-        Route::resource('offices', OfficeController::class); // Aggiungi le rotte CRUD per gli uffici
-
-        // Rotta per le statistiche
-        Route::get('statistics', [EmployeeController::class, 'statistics'])->name('statistics.index'); // Aggiungi la rotta per le statistiche
+// Gruppo di rotte protette da autenticazione per employee
+Route::middleware(['auth', 'role:employee'])
+    ->prefix('employee')
+    ->name('employee.')
+    ->group(function () {
+        Route::get('/profile', [EmployeeController::class, 'showProfile'])->name('profile'); // Visualizza il profilo dell'employee
+        Route::get('/orders', [EmployeeController::class, 'showOrders'])->name('orders.index'); // Visualizza solo gli ordini dell'employee
     });
 
 // Includi le rotte di autenticazione

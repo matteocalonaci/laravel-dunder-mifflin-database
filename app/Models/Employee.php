@@ -24,11 +24,9 @@ class Employee extends Model
 {
     return $this->hasMany(Order::class, 'ID_User'); // 'ID_User' è la chiave esterna in 'orders'
 }
-
-    // Define the inverse of the relationship
-    public function user()
+public function user()
     {
-        return $this->belongsTo(User::class, 'ID_User'); // Specify the foreign key
+        return $this->belongsTo(User::class, 'ID_User'); // Assicurati che 'ID_User' sia il campo corretto
     }
 
     public function department()

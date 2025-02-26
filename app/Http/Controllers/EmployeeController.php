@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Order;
@@ -9,7 +10,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
 class EmployeeController extends Controller
 {
     public function statistics()
@@ -141,4 +141,33 @@ public function update(Request $request, Employee $employee)
 
         return redirect('/')->with('error', 'Accesso non autorizzato.');
     }
+
+    public function showProfile()
+    {
+        // Ottieni l'utente autenticato
+        $user = Auth::user();
+
+        // Trova il dipendente associato all'utente
+        $employee = $user->employee;
+
+        // Controlla se il dipendente esiste
+        if (!$employee) {
+            return redirect('/')->with('error', 'Profilo non trovato.');
+        }
+
+        // Logga informazioni utili
+        Log::info('Accesso al profilo dell\'employee con ID: ' . $employee->id);
+        Log::info('Percorso immagine: ' . $employee->image);
+
+        return view('employee.employees.profile', compact('employee'));
+    }
+
+
+    public function showOrders()
+    {
+        // Ottieni gli ordini dell'utente autenticato
+        $orders = Auth::user()->employee->orders; // Assicurati che ci sia una relazione tra Employee e Order
+        return view('employee.employees.order.index', compact('orders')); // Modifica qui
+    }
 }
+

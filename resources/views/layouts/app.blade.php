@@ -47,7 +47,7 @@
                                 {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('admin.dashboard') }}">{{ __('Dashboard') }}</a>
+                                {{-- <a class="dropdown-item" href="{{ route('admin.dashboard') }}">{{ __('Dashboard') }}</a> --}}
                                 <a class="dropdown-item" href="{{ route('admin.statistics.index') }}">{{ __('Statistiche') }}</a>
                                 @if (Auth::user()->role === 'admin') <!-- Controlla se l'utente è un admin -->
                                     <a class="dropdown-item" href="{{ route('admin.employees.create') }}">{{ __('Crea Dipendente') }}</a>
