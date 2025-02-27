@@ -29,13 +29,7 @@ class OrderController extends Controller
     // Salva un nuovo ordine nel database
     public function store(Request $request)
     {
-        $request->validate([
-            'Order_Date' => 'required|date',
-            'ID_User' => 'required|exists:employees,ID_User',
-            'ID_Customer' => 'required|exists:customers,id',
-            'ID_Product' => 'required|exists:products,id',
-            'Quantity' => 'required|integer|min:1',
-        ]);
+        $this->validateOrder($request); // Usa un metodo privato per la validazione
 
         Order::create($request->all()); // Crea un nuovo ordine
         return redirect()->route('admin.orders.index')->with('success', 'Ordine creato con successo.'); // Reindirizza alla lista degli ordini
@@ -58,7 +52,31 @@ class OrderController extends Controller
         return view('admin.orders.edit', compact('order', 'employees', 'customers', 'products')); // Restituisce la vista per modificare l'ordine
     }
 
+    // Aggiorna un ordine esistente
     public function update(Request $request, $id)
+    {
+        $this->validateOrder($request); // Usa un metodo privato per la validazione
+
+        $order = Order::findOrFail($id); // Trova l'ordine per ID
+        try {
+            $order->update($request->all()); // Aggiorna l'ordine
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Errore durante l\'aggiornamento dell\'ordine: ' . $e->getMessage());
+        }
+
+        return redirect()->route('admin.orders.index')->with('success', 'Ordine aggiornato con successo.'); // Reindirizza alla lista degli ordini
+    }
+
+    // Elimina un ordine dal database
+    public function destroy($id)
+    {
+        $order = Order::findOrFail($id); // Trova l'ordine per ID
+        $order->delete(); // Elimina l'ordine
+        return redirect()->route('admin.orders.index')->with('success', 'Ordine eliminato con successo.'); // Reindirizza alla lista degli ordini
+    }
+
+    // Metodo privato per la validazione dell'ordine
+    private function validateOrder(Request $request)
     {
         $request->validate([
             'Order_Date' => 'required|date',
@@ -67,26 +85,19 @@ class OrderController extends Controller
             'ID_Product' => 'required|exists:products,id',
             'Quantity' => 'required|integer|min:1',
         ]);
-
-        $order = Order::findOrFail($id); // Trova l'ordine per ID
-try {
-    $order->update([
-        'Order_Date' => $request->Order_Date,
-        'Quantity' => $request->Quantity,
-        'ID_User' => $request->ID_User,
-        'ID_Product' => $request->ID_Product,
-        'ID_Customer' => $request->ID_Customer,
-    ]);
-} catch (\Exception $e) {
-    // Mostra il messaggio di errore
-    dd($e->getMessage());
-}        return redirect()->route('admin.orders.index')->with('success', 'Ordine aggiornato con successo.'); // Reindirizza alla lista degli ordini
     }
-    // Elimina un ordine dal database
-    public function destroy($id)
+
+    // Mostra il report delle vendite
+    public function salesReport()
     {
-        $order = Order::findOrFail($id); // Trova l'ordine per ID
-        $order->delete(); // Elimina l'ordine
-        return redirect()->route('admin.orders.index')->with('success', 'Ordine eliminato con successo.'); // Reindirizza alla lista degli ordini
+        // Recupera tutti gli ordini con i dettagli del prodotto
+        $orders = Order::with('product')->get();
+
+        // Calcola la somma totale delle vendite
+        $totalSales = $orders->sum(function ($order) {
+            return $order->Quantity * $order->product->price; // Moltiplica la quantità per il prezzo del prodotto
+        });
+
+        return view('admin.sales.index', compact('orders', 'totalSales')); // Restituisce la vista con il report delle vendite
     }
 }

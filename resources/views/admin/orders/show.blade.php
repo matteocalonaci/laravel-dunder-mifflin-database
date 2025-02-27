@@ -14,11 +14,20 @@
                     <div class="col-md-6">
                         <p><strong>Data Ordine:</strong> {{ \Carbon\Carbon::parse($order->Order_Date)->format('d/m/Y') }}</p>
                         <p><strong>Dipendente:</strong> {{ $order->employee->First_Name }} {{ $order->employee->Last_Name }}</p>
+                        <p><strong>Cliente:</strong> {{ $order->customer->Customer_Name ?? 'N/A' }}</p>
                     </div>
                     <div class="col-md-6">
-                        <p><strong>Prodotto:</strong> {{ $order->product->Product_Name ?? 'N/A' }}</p>
+                        <p><strong>Prezzo Unitario:</strong> €{{ number_format($order->product->price, 2) }}</p>
                         <p><strong>Quantità:</strong> {{ $order->Quantity }}</p>
-                        <p><strong>Cliente:</strong> {{ $order->customer->Customer_Name ?? 'N/A' }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Prodotto:</strong> {{ $order->product->Product_Name ?? 'N/A' }}</p>
+
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Prezzo Totale:</strong> €{{ number_format($order->Quantity * $order->product->price, 2) }}</p>
                     </div>
                 </div>
                 <div class="mt-3">

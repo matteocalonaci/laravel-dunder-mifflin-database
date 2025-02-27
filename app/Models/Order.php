@@ -21,7 +21,7 @@ class Order extends Model
 // Order Model
 public function employee()
 {
-    return $this->belongsTo(Employee::class, 'ID_User'); // 'ID_User' è la chiave esterna
+    return $this->belongsTo(Employee::class, 'ID_User');
 }
 
     public function customer()

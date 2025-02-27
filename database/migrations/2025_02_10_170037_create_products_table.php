@@ -9,15 +9,14 @@ class CreateProductsTable extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->engine = 'InnoDB'; // Specify the engine
+            $table->engine = 'InnoDB'; // Specifica il motore
             $table->id();
             $table->string('Product_Name');
             $table->integer('Quantity');
             $table->unsignedBigInteger('ID_Supplier');
+            $table->decimal('price', 10, 2); // Aggiungi la colonna 'price' con 10 cifre totali e 2 decimali
             $table->foreign('ID_Supplier')->references('id')->on('suppliers')->onDelete('cascade');
             $table->timestamps();
-
-            // Foreign keys
         });
     }
 

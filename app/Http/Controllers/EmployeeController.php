@@ -162,12 +162,17 @@ public function update(Request $request, Employee $employee)
         return view('employee.employees.profile', compact('employee'));
     }
 
-
     public function showOrders()
     {
-        // Ottieni gli ordini dell'utente autenticato
-        $orders = Auth::user()->employee->orders; // Assicurati che ci sia una relazione tra Employee e Order
-        return view('employee.employees.order.index', compact('orders')); // Modifica qui
+        // Ottieni gli ordini dell'utente autenticato e carica i dettagli del prodotto
+        $orders = Auth::user()->employee->orders()->with('product')->get(); // Assicurati che ci sia una relazione tra Employee e Order
+
+        // Controlla se ci sono ordini
+        if ($orders->isEmpty()) {
+            return redirect()->back()->with('error', 'Nessun ordine trovato per questo dipendente.');
+        }
+
+        return view('employee.orders.index', compact('orders')); // Modifica qui
     }
 }
 

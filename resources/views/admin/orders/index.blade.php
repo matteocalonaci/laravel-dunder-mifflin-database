@@ -27,6 +27,7 @@
                 <div class="col-cliente">Cliente</div>
                 <div class="col-prodotto">Prodotto</div>
                 <div class="col-quantita">Quantità</div>
+                <div class="col-prezzo">Prezzo</div> <!-- Aggiunta colonna Prezzo -->
                 <div class="col-azioni">Azioni</div>
             </div>
             <div class="table-body">
@@ -38,6 +39,7 @@
                         <div class="col-cliente">{{ $order->customer->Customer_Name }}</div>
                         <div class="col-prodotto">{{ $order->product->Product_Name }}</div>
                         <div class="col-quantita">{{ $order->Quantity }}</div>
+                        <div class="col-prezzo">€{{ number_format($order->Quantity * $order->product->price, 2) }}</div> <!-- Calcolo del prezzo totale -->
                         <div class="col-azioni">
                             <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-info btn-sm margin-dx">
                                  <i class="fas fa-eye"></i>
@@ -151,6 +153,10 @@
         flex: 0 0 70px;
     }
 
+    .col-prezzo {
+        flex: 0 0 100px; /* Aggiunta larghezza per la colonna Prezzo */
+    }
+
     .col-azioni {
         flex: 0 0 110px;
     }
@@ -174,7 +180,7 @@
     }
 
     @media (max-width: 768px) {
-        .page-link{
+        .page-link {
             margin-left: 7.5rem;
         }
         .container {
@@ -231,37 +237,15 @@
             font-weight: bold;
         }
 
+        .col-prezzo::before {
+            content: "Prezzo: "; /* Aggiunta per la colonna Prezzo */
+            font-weight: bold;
+        }
+
         .col-azioni::before {
             content: "Azioni: ";
             font-weight: bold;
         }
-        .col-id {
-        flex: 0 0 30px;
-    }
-
-    .col-data {
-        flex: 0 0 30px;
-    }
-
-    .col-dipendente {
-        flex: 0 0 30px;
-    }
-
-    .col-cliente {
-        flex: 0 0 30px;
-    }
-
-    .col-prodotto {
-        flex: 0 0 30px;
-    }
-
-    .col-quantita {
-        flex: 0 0 30px;
-    }
-
-    .col-azioni {
-        flex: 0 0 30px;
-    }
 
         .btn-info {
             width: 2rem;
@@ -273,7 +257,7 @@
             height: 1.5rem;
         }
 
-        .margin-dx{
+        .margin-dx {
             margin-right: 0.5rem;
         }
     }
