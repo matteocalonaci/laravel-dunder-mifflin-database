@@ -14,24 +14,41 @@ class EmployeeController extends Controller
 {
     public function statistics()
     {
-        // Logica per ottenere i primi tre venditori del mese
-        $topSellers = Order::select('ID_User', DB::raw('SUM(Quantity) as total_sales'))
-            ->whereMonth('Order_Date', now()->month) // Assicurati di usare il campo corretto per la data
-            ->groupBy('ID_User') // Raggruppa per ID dell'utente
-            ->orderBy('total_sales', 'desc')
-            ->take(3) // Limita i risultati ai primi 3
-            ->get(); // Usa get() per ottenere una collezione di risultati
+        // Ottieni la data di inizio e fine del mese corrente
+        $startOfMonth = now()->startOfMonth();
+        $endOfMonth = now()->endOfMonth();
 
-        // Recupera gli utenti associati ai migliori venditori
-        foreach ($topSellers as $seller) {
-            $seller->employee = Employee::find($seller->ID_User); // Assicurati di importare il modello Employee
-        }
+        // Ottieni l'ID del dipartimento Vendite
+        $salesDepartmentId = Department::where('Department_Name', 'Vendite')->value('id'); // Usa 'Department_Name' qui
 
-        return view('admin.statistics.index', compact('topSellers'));
+        // Ottieni solo i dipendenti del dipartimento Vendite
+        $employees = Employee::with(['orders.product', 'orders.customer'])
+            ->where('ID_Department', $salesDepartmentId) // Filtra per ID_Department
+            ->get()
+            ->map(function ($employee) use ($startOfMonth, $endOfMonth) {
+                // Filtra gli ordini del mese corrente
+                $sales = $employee->orders->filter(function ($order) use ($startOfMonth, $endOfMonth) {
+                    return $order->Order_Date >= $startOfMonth && $order->Order_Date <= $endOfMonth;
+                });
+
+                // Calcola la quantità totale e il profitto totale
+                $totalQuantity = $sales->sum('Quantity'); // Somma delle quantità vendute
+                $totalProfit = $sales->sum(function ($order) {
+                    return $order->Quantity * $order->product->price; // Calcolo del valore totale degli ordini
+                });
+
+                return [
+                    'employee' => $employee,
+                    'totalQuantity' => $totalQuantity,
+                    'totalProfit' => $totalProfit,
+                ];
+            })
+            ->sortByDesc('totalProfit') // Ordina per profitto totale
+            ->values(); // Rimuove le chiavi originali per avere un array indicizzato
+
+        return view('admin.statistics.index', compact('employees'));
     }
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         // Controlla se l'utente autenticato è un admin
@@ -93,9 +110,26 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
+        // Carica gli ordini, i prodotti e i clienti associati
         $employee->load(['orders.product', 'orders.customer']);
+
+        // Ottieni la data di inizio e fine del mese corrente
+        $startOfMonth = now()->startOfMonth();
+        $endOfMonth = now()->endOfMonth();
+
+        // Filtra gli ordini del mese corrente
+        $sales = $employee->orders->filter(function ($order) use ($startOfMonth, $endOfMonth) {
+            return $order->Order_Date >= $startOfMonth && $order->Order_Date <= $endOfMonth;
+        });
+
+        // Calcola la quantità totale e il profitto totale
+        $totalQuantity = $sales->sum('Quantity'); // Somma delle quantità vendute
+        $totalProfit = $sales->sum(function ($order) {
+            return $order->Quantity * $order->product->price; // Calcolo del valore totale degli ordini
+        });
+
         // Mostra i dettagli di un dipendente specifico
-        return view('admin.employees.show', compact('employee'));
+        return view('admin.employees.show', compact('employee', 'totalQuantity', 'totalProfit'));
     }
 
     /**

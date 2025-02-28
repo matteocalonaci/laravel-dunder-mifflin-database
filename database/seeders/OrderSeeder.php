@@ -14,28 +14,38 @@ class OrderSeeder extends Seeder
 
         // Get the IDs of employees in the Sales department
         $salesUserIds = DB::table('employees')
-        ->where('ID_Department', 1) // Assuming 1 is the ID for the Sales department
-        ->pluck('id'); // Get the IDs of employees in the Sales department
+            ->where('ID_Department', 1) // Assuming 1 is the ID for the Sales department
+            ->pluck('id'); // Get the IDs of employees in the Sales department
 
+        // Get the count of customers and products
+        $customerCount = DB::table('customers')->count();
+        $productCount = DB::table('products')->count();
 
-              // Get the count of customers and products
-              $customerCount = DB::table('customers')->count();
-              $productCount = DB::table('products')->count();
-    // Now use these IDs correctly in the order generation
-    $orders = [];
-    for ($i = 0; $i < 100; $i++) { // Generate 100 fake orders
-        $orders[] = [
-            'Order_Date' => $faker->date(),
-            'ID_User' => $faker->randomElement($salesUserIds), // Random employee ID from Sales department
-            'ID_Customer' => $faker->numberBetween(1, $customerCount), // Random customer ID
-            'ID_Product' => $faker->numberBetween(1, $productCount), // Random product ID
-            'Quantity' => $faker->numberBetween(1, 20), // Random quantity between 1 and 20
-            'created_at' => now(),
-            'updated_at' => now(),
+        // Define the months for the last three months
+        $months = [
+            now()->subMonths(2)->startOfMonth(), // Inizio del mese 2 mesi fa
+            now()->subMonth()->startOfMonth(),    // Inizio del mese scorso
+            now()->startOfMonth()                  // Inizio del mese corrente
         ];
-    }
 
-    DB::table('orders')->insert($orders);
+        $orders = [];
 
+        // Genera esattamente 5 ordini per ciascun mese
+        foreach ($months as $month) {
+            for ($i = 0; $i < 2500; $i++) { // Genera 5 ordini per ogni mese
+                $orders[] = [
+                    'Order_Date' => $faker->dateTimeBetween($month, $month->copy()->endOfMonth()), // Data casuale nel mese corrente
+                    'ID_User' => $faker->randomElement($salesUserIds), // ID dipendente casuale dal dipartimento vendite
+                    'ID_Customer' => $faker->numberBetween(1, $customerCount), // ID cliente casuale
+                    'ID_Product' => $faker->numberBetween(1, $productCount), // ID prodotto casuale
+                    'Quantity' => $faker->numberBetween(1, 20), // Quantità casuale tra 1 e 20
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+        }
+
+        // Inserisci gli ordini nel database
+        DB::table('orders')->insert($orders);
     }
 }

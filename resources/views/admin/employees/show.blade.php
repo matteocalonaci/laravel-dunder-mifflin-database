@@ -47,45 +47,110 @@
             </div>
         </div>
 
-        {{-- Sales Summary Section --}}
-        @if($employee->department && $employee->department->Department_Name === 'Vendite')
-        <div class="sales-summary">
-            <h3>📊 Prestazioni di vendita</h3>
-            <div class="stats">
-                <div class="stat-item">
-                    <span class="label">Totale Ordini:</span>
-                    <span class="value">{{ $employee->orders->count() }}</span>
-                </div>
-                <div class="stat-item">
-                    <span class="label">Totale Prodotti Venduti:</span>
-                    <span class="value">{{ $employee->orders->sum('Quantity') }}</span>
-                </div>
-            </div>
-            <h4>Transazioni Recenti</h4>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Prodotti</th>
-                            <th>Quantità</th> <!-- Mantieni "Quantità" per desktop e tablet -->
-                            <th>Cliente</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($employee->orders->sortByDesc('Order_Date')->take(5) as $order)
-                        <tr>
-                            <td data-label="Data">{{ \Carbon\Carbon::parse($order->Order_Date)->format('d/m/Y') }}</td>
-                            <td data-label="Prodotti">{{ $order->product->Product_Name ?? 'N/A' }}</td>
-                            <td data-label="Quantità">{{ $order->Quantity }}</td> <!-- Mantieni "Quantità" -->
-                            <td data-label="Cliente">{{ $order->customer->Customer_Name }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+       {{-- Sales Summary Section --}}
+{{-- Sales Summary Section --}}
+@if($employee->department && $employee->department->Department_Name === 'Vendite')
+<div class="sales-summary">
+    <h3>📊 Prestazioni di vendita</h3>
+
+    {{-- Dropdown per selezionare il mese --}}
+    <div class="form-group">
+        <label for="monthSelect">Seleziona Mese:</label>
+        <select id="monthSelect" class="form-control" onchange="updateSalesSummary(this.value)">
+            <option value="0">Ultimo Mese (Corrente)</option>
+            <option value="1">Mese Scorso</option>
+            <option value="2">Due Mesi Fa</option>
+        </select>
+    </div>
+
+    <div class="stats" id="salesStats">
+        <div class="stat-item">
+            <span class="label">Totale Ordini:</span>
+            <span class="value" id="totalOrders">{{ $employee->orders->where('Order_Date', '>=', now()->subMonth())->count() }}</span>
         </div>
-        @endif
+        <div class="stat-item">
+            <span class="label">Totale Vendite:</span>
+            <span class="value" id="totalSales">€{{ number_format($employee->orders->where('Order_Date', '>=', now()->subMonth())->sum(function ($order) {
+                return $order->Quantity * $order->product->price;
+            }), 2) }}</span>
+        </div>
+    </div>
+
+    <h4>Transazioni Recenti (Ultimo Mese)</h4>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 20%;">Data</th>
+                    <th style="width: 30%;">Prodotti</th>
+                    <th style="width: 15%;">Quantità</th>
+                    <th style="width: 15%;">Prezzo</th>
+                    <th style="width: 20%;">Cliente</th>
+                </tr>
+            </thead>
+            <tbody id="recentTransactions">
+                @foreach($employee->orders->where('Order_Date', '>=', now()->subMonth())->sortByDesc('Order_Date')->take(5) as $order)
+                <tr>
+                    <td data-label="Data">{{ \Carbon\Carbon::parse($order->Order_Date)->format('d/m/Y') }}</td>
+                    <td data-label="Prodotti">{{ $order->product->Product_Name ?? 'N/A' }}</td>
+                    <td data-label="Quantità">{{ $order->Quantity }}</td>
+                    <td data-label="Prezzo">€{{ number_format($order->Quantity * $order->product->price, 2) }}</td>
+                    <td data-label="Cliente">{{ $order->customer->Customer_Name }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function updateSalesSummary(monthIndex) {
+        const now = new Date();
+        let startDate;
+        let endDate;
+
+        // Calcola le date di inizio e fine in base al mese selezionato
+        if (monthIndex == 0) {
+            startDate = new Date(now.getFullYear(), now.getMonth(), 1); // Inizio del mese corrente
+            endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0); // Fine del mese corrente
+        } else if (monthIndex == 1) {
+            startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1); // Inizio del mese scorso
+            endDate = new Date(now.getFullYear(), now.getMonth(), 0); // Fine del mese scorso
+        } else if (monthIndex == 2) {
+            startDate = new Date(now.getFullYear(), now.getMonth() - 2, 1); // Inizio del mese 2 mesi fa
+            endDate = new Date(now.getFullYear(), now.getMonth() - 1, 0); // Fine del mese 2 mesi fa
+        }
+
+        // Filtra gli ordini in base alle date
+        const orders = @json($employee->orders);
+        const filteredOrders = orders.filter(order => {
+            const orderDate = new Date(order.Order_Date);
+            return orderDate >= startDate && orderDate <= endDate;
+        });
+
+        // Aggiorna le statistiche
+        document.getElementById('totalOrders').innerText = filteredOrders.length;
+        document.getElementById('totalSales').innerText = '€' + filteredOrders.reduce((total, order) => {
+            return total + (order.Quantity * order.product.price);
+        }, 0).toFixed(2);
+
+        // Aggiorna le transazioni recenti
+        const recentTransactions = document.getElementById('recentTransactions');
+        recentTransactions.innerHTML = '';
+        filteredOrders.sort((a, b) => new Date(b.Order_Date) - new Date(a.Order_Date)).slice(0, 5).forEach(order => {
+            recentTransactions.innerHTML += `
+                <tr>
+                    <td data-label="Data">${new Date(order.Order_Date).toLocaleDateString()}</td>
+                    <td data-label="Prodotti">${order.product.Product_Name ?? 'N/A'}</td>
+                    <td data-label="Quantità">${order.Quantity}</td>
+                    <td data-label="Prezzo">€${(order.Quantity * order.product.price).toFixed(2)}</td>
+                    <td data-label="Cliente">${order.customer.Customer_Name}</td>
+                </tr>
+            `;
+        });
+    }
+</script>
+@endif
     </div>
 </div>
 @endsection

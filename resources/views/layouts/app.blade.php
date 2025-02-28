@@ -47,10 +47,16 @@
                                 {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                {{-- <a class="dropdown-item" href="{{ route('admin.dashboard') }}">{{ __('Dashboard') }}</a> --}}
-                                <a class="dropdown-item" href="{{ route('employee.profile') }}">{{ __('Profilo') }}</a>
-                                {{-- <a class="dropdown-item" href="{{ route('employee.order.index') }}">{{ __('Ordini') }}</a>
-                                <a class="dropdown-item" href="{{ route('employee.order') }}">{{ __('Crea Ordine') }}</a> --}}
+                                @if(Auth::user()->role === 'admin')
+                                    <a class="dropdown-item" href="{{ route('admin.dashboard') }}">{{ __('Dashboard') }}</a>
+                                    <a class="dropdown-item" href="{{ route('admin.employees.index') }}">{{ __('Gestisci Dipendenti') }}</a>
+                                    <a class="dropdown-item" href="{{ route('admin.orders.index') }}">{{ __('Gestisci Ordini') }}</a>
+                                    <a class="dropdown-item" href="{{ route('admin.offices.index') }}">{{ __('Gestisci Uffici') }}</a>
+                                    <a class="dropdown-item" href="{{ route('admin.statistics.index') }}">{{ __('Statistiche') }}</a>
+                                @elseif(Auth::user()->role === 'employee')
+                                    <a class="dropdown-item" href="{{ route('employee.profile') }}">{{ __('Profilo') }}</a>
+                                    <a class="dropdown-item" href="{{ route('employee.orders.index') }}">{{ __('I miei Ordini') }}</a>
+                                @endif
 
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}

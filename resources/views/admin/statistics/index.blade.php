@@ -1,66 +1,81 @@
-<!-- resources/views/admin/statistics/index.blade.php -->
-
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1 class="mb-4 text-white">Statistiche Vendite</h1>
+<div class="container mt-5">
+    <h1 class="text-white text-center mb-4">Migliori Venditori del Mese</h1>
 
-    @if ($topSellers->isNotEmpty())
-        <h3>I Migliori Venditori del Mese:</h3>
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Nome Venditore</th>
-                        <th>Vendite Totali</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($topSellers as $seller)
-                        <tr>
-                            <td>{{ $seller->employee->First_Name }} {{ $seller->employee->Last_Name }}</td>
-                            <td>{{ $seller->total_sales }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Classifica Venditori</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Posizione</th>
+                                <th>Nome</th>
+                                <th>Profitti (€)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($employees as $index => $data)
+                            <tr>
+                                <td>{{ $index + 1 }}</td> <!-- Numero di posizione -->
+                                <td>{{ $data['employee']->First_Name }} {{ $data['employee']->Last_Name }}</td>
+                                <td>€{{ number_format($data['totalProfit'], 2) }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-    @else
-        <p>Nessuna vendita registrata per questo mese.</p>
-    @endif
 
-    <div class="mt-4">
-        <canvas id="salesChart" style="height: 300px; width: 100%;"></canvas> <!-- Imposta l'altezza del grafico -->
+        <div class="col-md-7">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Grafico delle Vendite - {{ now()->format('F Y') }}</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="topSellersChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
-    const ctx = document.getElementById('salesChart').getContext('2d');
-    const salesChart = new Chart(ctx, {
+    const ctx = document.getElementById('topSellersChart').getContext('2d');
+    const labels = @json($employees->pluck('employee.First_Name'));
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Profitti (€)',
+            data: @json($employees->pluck('totalProfit')),
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    };
+
+    const config = {
         type: 'bar',
-        data: {
-            labels: @json($topSellers->pluck('employee.First_Name')->toArray()), // Ottieni i nomi dei venditori
-            datasets: [{
-                label: 'Vendite Totali',
-                data: @json($topSellers->pluck('total_sales')->toArray()), // Ottieni le vendite totali
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        },
+        data: data,
         options: {
-            responsive: true, // Rendi il grafico responsive
             scales: {
                 y: {
                     beginAtZero: true
                 }
             }
         }
-    });
+    };
+
+    const topSellersChart = new Chart(ctx, config);
 </script>
-@endsection
 
 <style scoped>
     .container {
@@ -73,6 +88,11 @@
             -1px -1px 0 rgb(0, 0, 0),
             1px -1px 0 rgb(0, 0, 0),
             -1px  1px 0 rgb(0, 0, 0),
-            1px  1px 0 rgb(0, 0, 0);
+            1px -1px 0 rgb(0, 0, 0);
+    }
+
+    .card-header {
+        font-weight: bold;
     }
 </style>
+@endsection
