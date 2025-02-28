@@ -83,32 +83,32 @@
 
 <style scoped>
     body {
-        margin: 0; /* Rimuovi margini di default */
-        overflow: hidden; /* Nascondi le barre di scorrimento */
+        margin: 0;
+        overflow: hidden;
     }
 
     .background-image {
         background-image: url('https://media.timeout.com/images/105824238/750/422/image.jpg');
-        background-size: cover; /* Copre l'intera area */
-        background-position: center; /* Centra l'immagine */
-        background-repeat: no-repeat; /* Non ripete l'immagine */
-        min-height: 100vh; /* Assicura che l'immagine copra l'intera altezza della finestra */
-        display: flex; /* Usa flexbox per centrare il contenuto */
-        align-items: flex-start; /* Allinea il contenuto in alto */
-        justify-content: center; /* Centra orizzontalmente */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
     }
 
     .container {
         margin-top: 7rem;
-        background-color: rgba(255, 255, 255, 0.9); /* Sfondo bianco semi-trasparente per migliorare la leggibilità */
-        border-radius: 10px; /* Angoli arrotondati */
-        padding: 20px; /* Padding interno */
-        width: 100%; /* Assicura che il contenitore occupi il 100% della larghezza disponibile */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombra per il contenitore */
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        padding: 20px;
+        width: 100%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     h1 {
-        margin-top: 0; /* Rimuovi il margine superiore */
+        margin-top: 0;
         text-shadow:
             -1px -1px 0 rgb(0, 0, 0),
             1px -1px 0 rgb(0, 0, 0),
@@ -121,55 +121,55 @@
     }
 
     .table th, .table td {
-        vertical-align: middle; /* Allinea verticalmente il contenuto */
+        vertical-align: middle;
     }
 
     .table th {
-        background-color: rgba(0, 123, 255, 0.1); /* Colore di sfondo per le intestazioni della tabella */
+        background-color: rgba(0, 123, 255, 0.1);
     }
 
     .table-striped tbody tr:nth-of-type(odd) {
-        background-color: rgba(0, 123, 255, 0.05); /* Colore di sfondo per le righe dispari */
+        background-color: rgba(0, 123, 255, 0.05);
     }
 
     .table-striped tbody tr:hover {
-        background-color: rgba(0, 123, 255, 0.15); /* Colore di sfondo al passaggio del mouse */
+        background-color: rgba(0, 123, 255, 0.15);
     }
 
     .card {
-        border: none; /* Rimuovi il bordo della card */
+        border: none;
     }
 
     .card-body {
-        padding: 1.5rem; /* Padding interno per il corpo della card */
+        padding: 1.5rem;
     }
 
     @media (max-width: 768px) {
         h1 {
-            margin-top: 8rem; /* Aumenta il margine superiore su schermi più piccoli */
+            margin-top: 8rem;
         }
 
         .table thead {
-            display: none; /* Nascondi le intestazioni della tabella su schermi piccoli */
+            display: none;
         }
 
         .table tr {
-            display: block; /* Rendi le righe della tabella a blocchi */
-            margin-bottom: 15px; /* Margine tra le righe */
+            display: block;
+            margin-bottom: 15px;
         }
 
         .table td {
-            display: block; /* Rendi le celle della tabella a blocchi */
-            padding: 10px; /* Padding per le celle */
-            border: none; /* Rimuovi il bordo delle celle */
-            position: relative; /* Posizione relativa per le etichette */
+            display: block;
+            padding: 10px;
+            border: none;
+            position: relative;
         }
 
         .table td::before {
-            content: attr(data-label); /* Mostra l'etichetta della cella */
-            font-weight: bold; /* Grassetto per le etichette */
-            margin-bottom: 5px; /* Margine sotto le etichette */
-            display: block; /* Mostra le etichette come blocchi */
+            content: attr(data-label);
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
         }
     }
 </style>
