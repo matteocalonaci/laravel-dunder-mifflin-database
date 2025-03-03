@@ -33,12 +33,17 @@ Route::middleware(['auth'])
     });
 
 // Gruppo di rotte protette da autenticazione per employee
+// Gruppo di rotte protette da autenticazione per employee
 Route::middleware(['auth', 'role:employee'])
     ->prefix('employee')
     ->name('employee.')
     ->group(function () {
         Route::get('/profile', [EmployeeController::class, 'showProfile'])->name('profile'); // Visualizza il profilo dell'employee
         Route::get('/orders', [EmployeeController::class, 'showOrders'])->name('orders.index'); // Visualizza solo gli ordini dell'employee
+        Route::get('/orders/{order}/edit', [EmployeeController::class, 'editOrder'])->name('orders.edit'); // Modifica ordine
+        Route::put('/orders/{order}', [EmployeeController::class, 'updateOrder'])->name('orders.update'); // Aggiorna ordine
+        Route::get('/orders/create', [EmployeeController::class, 'createOrder'])->name('orders.create'); // Mostra il modulo di creazione
+        Route::post('/orders', [EmployeeController::class, 'storeOrder'])->name('orders.store'); // Salva il nuovo ordine
     });
 
 // Includi le rotte di autenticazione

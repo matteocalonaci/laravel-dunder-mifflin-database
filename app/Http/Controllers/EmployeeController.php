@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use Illuminate\Support\Facades\Log;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -198,15 +200,80 @@ public function update(Request $request, Employee $employee)
 
     public function showOrders()
     {
-        // Ottieni gli ordini dell'utente autenticato e carica i dettagli del prodotto
-        $orders = Auth::user()->employee->orders()->with('product')->get(); // Assicurati che ci sia una relazione tra Employee e Order
+        // Ottieni gli ordini dell'utente autenticato, carica i dettagli del prodotto e ordina per data in modo decrescente
+        $orders = Auth::user()->employee->orders()
+            ->with('product')
+            ->orderBy('Order_Date', 'desc') // Ordina per data dell'ordine in modo decrescente
+            ->paginate(9); // Paginazione con 9 ordini per pagina
 
         // Controlla se ci sono ordini
         if ($orders->isEmpty()) {
             return redirect()->back()->with('error', 'Nessun ordine trovato per questo dipendente.');
         }
 
-        return view('employee.orders.index', compact('orders')); // Modifica qui
+        return view('employee.orders.index', compact('orders'));
     }
+
+    public function editOrder(Order $order)
+    {
+        // Carica i dettagli del prodotto associato all'ordine
+        $order->load('product');
+
+        // Ottieni tutti i prodotti per il selettore
+        $products = Product::all();
+
+        // Ottieni tutti i clienti per il selettore
+        $customers = Customer::all(); // Assicurati di avere il modello Customer importato
+
+        // Mostra il modulo di modifica dell'ordine
+        return view('employee.orders.edit', compact('order', 'products', 'customers'));
+    }
+
+    public function updateOrder(Request $request, Order $order)
+{
+    // Validazione dei dati
+    $request->validate([
+        'Quantity' => 'required|integer|min:1', // Assicurati che la quantità sia un numero intero positivo
+        'ID_Product' => 'required|exists:products,id', // Assicurati che il prodotto esista
+    ]);
+
+    // Aggiorna l'ordine
+    $order->update([
+        'Quantity' => $request->Quantity,
+        'ID_Product' => $request->ID_Product,
+    ]);
+
+    return redirect()->route('employee.orders.index')->with('success', 'Ordine aggiornato con successo.');
+}
+
+public function createOrder()
+{
+    // Ottieni i prodotti e i clienti per il selettore
+    $products = Product::all();
+    $customers = Customer::all();
+
+    return view('employee.orders.create', compact('products', 'customers'));
+}
+
+public function storeOrder(Request $request)
+{
+    // Validazione dei dati
+    $request->validate([
+        'Order_Date' => 'required|date',
+        'Quantity' => 'required|integer|min:1',
+        'ID_Product' => 'required|exists:products,id',
+        'ID_Customer' => 'required|exists:customers,id',
+    ]);
+
+    // Crea un nuovo ordine
+    Auth::user()->employee->orders()->create([
+        'Order_Date' => $request->Order_Date,
+        'Quantity' => $request->Quantity,
+        'ID_Product' => $request->ID_Product,
+        'ID_Customer' => $request->ID_Customer,
+    ]);
+
+    return redirect()->route('employee.orders.index')->with('success', 'Ordine creato con successo.');
+}
 }
 

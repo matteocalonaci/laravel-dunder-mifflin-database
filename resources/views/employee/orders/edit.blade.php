@@ -3,31 +3,34 @@
 @section('content')
 <div class="background-image">
     <div class="container mt-5">
-        <h1 class="text-white">Crea Nuovo Ordine</h1>
+        <h1 class="text-white">Modifica Ordine #{{ $order->id }}</h1>
 
         <div class="card">
             <div class="card-header">
-                Dettagli Ordine
+                Modifica Dettagli Ordine
             </div>
             <div class="card-body">
-                <form action="{{ route('employee.orders.store') }}" method="POST">
+                <form action="{{ route('employee.orders.update', $order->id) }}" method="POST">
                     @csrf
+                    @method('PUT')
 
                     <div class="form-group">
                         <label for="Order_Date">Data Ordine</label>
-                        <input type="date" class="form-control" id="Order_Date" name="Order_Date" required>
+                        <input type="date" class="form-control" id="Order_Date" name="Order_Date" value="{{ $order->Order_Date }}" required>
                     </div>
 
                     <div class="form-group">
                         <label for="Quantity">Quantità</label>
-                        <input type="number" class="form-control" id="Quantity" name="Quantity" min="1" required>
+                        <input type="number" class="form-control" id="Quantity" name="Quantity" value="{{ $order->Quantity }}" min="1" required>
                     </div>
 
                     <div class="form-group">
                         <label for="ID_Product">Prodotto</label>
                         <select class="form-control" id="ID_Product" name="ID_Product" required>
                             @foreach($products as $product)
-                                <option value="{{ $product->id }}">{{ $product->Product_Name }}</option>
+                                <option value="{{ $product->id }}" {{ $product->id == $order->ID_Product ? 'selected' : '' }}>
+                                    {{ $product->Product_Name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -36,13 +39,15 @@
                         <label for="ID_Customer">Cliente</label>
                         <select class="form-control" id="ID_Customer" name="ID_Customer" required>
                             @foreach($customers as $customer)
-                                <option value="{{ $customer->id }}">{{ $customer->Customer_Name }}</option>
+                                <option value="{{ $customer->id }}" {{ $customer->id == $order->ID_Customer ? 'selected' : '' }}>
+                                    {{ $customer->Customer_Name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
 
-                    <button type="submit" class="btn btn-success">Crea Ordine</button>
-                    <a href="{{ route('employee.orders.index') }}" class="btn btn-secondary">Annulla</a>
+                    <button type="submit" class="btn btn-success mt-3">Aggiorna Ordine</button>
+                    <a href="{{ route('employee.orders.index') }}" class="btn btn-secondary mt-3">Annulla</a>
                 </form>
             </div>
         </div>

@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="background-image">
-    <div class="container">
-        <h1 class="mb-4 text-white">Elenco Ordini</h1>
+    <div class="container mt-5">
+        <h1 class="text-white text-center mb-4">I tuoi ordini</h1>
 
         @if(session('success'))
             <div class="alert alert-success">
@@ -17,52 +17,41 @@
             </div>
         @endif
 
-        <a href="{{ route('admin.orders.create') }}" class="btn btn-primary mb-3">Crea Nuovo Ordine</a>
+        <!-- Pulsante per creare un nuovo ordine -->
+        <a href="{{ route('employee.orders.create') }}" class="btn btn-primary mb-3 w-100">Crea Nuovo Ordine</a>
 
         <div class="table-container">
             <div class="table-header">
                 <div class="col-id">ID Ordine</div>
-                <div class="col-data">Data Ordine</div>
-                <div class="col-dipendente">Dipendente</div>
-                <div class="col-cliente">Cliente</div>
-                <div class="col-prodotto">Prodotto</div>
+                <div class="col-data">Data</div>
                 <div class="col-quantita">Quantità</div>
-                <div class="col-prezzo">Prezzo</div> <!-- Aggiunta colonna Prezzo -->
+                <div class="col-prodotto">Prodotto</div>
                 <div class="col-azioni">Azioni</div>
             </div>
             <div class="table-body">
-                @foreach($orders as $order)
+                @forelse($orders as $order)
                     <div class="table-row">
                         <div class="col-id">{{ $order->id }}</div>
                         <div class="col-data">{{ \Carbon\Carbon::parse($order->Order_Date)->format('d/m/Y') }}</div>
-                        <div class="col-dipendente">{{ $order->employee->First_Name }} {{ $order->employee->Last_Name }}</div>
-                        <div class="col-cliente">{{ $order->customer->Customer_Name }}</div>
-                        <div class="col-prodotto">{{ $order->product->Product_Name }}</div>
                         <div class="col-quantita">{{ $order->Quantity }}</div>
-                        <div class="col-prezzo">€{{ number_format($order->Quantity * $order->product->price, 2) }}</div> <!-- Calcolo del prezzo totale -->
+                        <div class="col-prodotto">{{ $order->product->Product_Name ?? 'N/A' }}</div>
                         <div class="col-azioni">
-                            <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-info btn-sm margin-dx">
-                                 <i class="fas fa-eye"></i>
+                            <a href="{{ route('employee.orders.edit', $order->id) }}" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i> Modifica
                             </a>
-                            <a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-warning btn-sm margin-dx">
-                                 <i class="fas fa-edit"></i>
-                            </a>
-                            <form action="{{ route('admin.orders.destroy', $order->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm margin-dx">
-                                     <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="table-row">
+                        <div class="col-id" colspan="5" class="text-center">Nessun ordine trovato.</div>
+                    </div>
+                @endforelse
             </div>
         </div>
 
         <div class="pagination-container mt-3">
             <div class="pagination-wrapper">
-                {{ $orders->links('pagination::bootstrap-4') }}
+                {{ $orders->links('pagination::bootstrap-4') }} <!-- Paginazione -->
             </div>
         </div>
     </div>
@@ -123,10 +112,12 @@
     .table-row {
         display: flex;
         padding: 10px;
+        flex-wrap: wrap; /* Permette di avvolgere le righe su schermi piccoli */
     }
 
     .table-header div, .table-row div {
         text-align: left;
+        flex: 1; /* Permette di distribuire lo spazio in modo uniforme */
     }
 
     .col-id {
@@ -134,27 +125,15 @@
     }
 
     .col-data {
-        flex: 0 0 100px;
-    }
-
-    .col-dipendente {
-        flex: 0 0 140px;
-    }
-
-    .col-cliente {
-        flex: 0 0 200px;
-    }
-
-    .col-prodotto {
-        flex: 0 0 230px;
+        flex: 0 0        100px;
     }
 
     .col-quantita {
         flex: 0 0 70px;
     }
 
-    .col-prezzo {
-        flex: 0 0 100px; /* Aggiunta larghezza per la colonna Prezzo */
+    .col-prodotto {
+        flex: 0 0 230px;
     }
 
     .col-azioni {
@@ -180,31 +159,21 @@
     }
 
     @media (max-width: 768px) {
-        .page-link {
-            margin-left: 7.5rem;
-        }
-        .container {
-            margin-top: 4rem;
-        }
-
-        .table-container {
-            max-height: 60vh;
-        }
-
         .table-header {
-            display: none;
+            display: none; /* Nascondi l'intestazione della tabella su schermi piccoli */
         }
 
         .table-row {
-            flex-direction: column;
-            padding: 5px;
+            flex-direction: column; /* Cambia la direzione delle righe per i dispositivi mobili */
+            padding: 10px;
+            border-bottom: 1px solid #ccc; /* Aggiungi un bordo inferiore per separare le righe */
         }
 
         .table-row div {
             display: flex;
-            justify-content: flex-start;
-            margin-bottom: 5px;
-            width: 100%;
+            justify-content: space-between; /* Allinea i contenuti a sinistra e a destra */
+            margin-bottom: 5px; /* Spazio tra le righe */
+            width: 100%; /* Assicura che le righe occupino tutta la larghezza */
         }
 
         .col-id::before {
@@ -213,22 +182,7 @@
         }
 
         .col-data::before {
-            content: "Data Ordine: ";
-            font-weight: bold;
-        }
-
-        .col-dipendente::before {
-            content: "Dipendente: ";
-            font-weight: bold;
-        }
-
-        .col-cliente::before {
-            content: "Cliente: ";
-            font-weight: bold;
-        }
-
-        .col-prodotto::before {
-            content: "Prodotto: ";
+            content: "Data: ";
             font-weight: bold;
         }
 
@@ -237,8 +191,8 @@
             font-weight: bold;
         }
 
-        .col-prezzo::before {
-            content: "Prezzo: "; /* Aggiunta per la colonna Prezzo */
+        .col-prodotto::before {
+            content: "Prodotto: ";
             font-weight: bold;
         }
 
@@ -247,18 +201,18 @@
             font-weight: bold;
         }
 
-        .btn-info {
-            width: 2rem;
-            height: 1.5rem;
+        .btn-warning {
+            width: 100%; /* Pulsante di modifica a larghezza piena */
+            margin-top: 5px; /* Spazio sopra il pulsante */
         }
 
-        .btn-warning {
-            width: 2rem;
-            height: 1.5rem;
+        .btn-info {
+            width: 100%; /* Pulsante di visualizzazione a larghezza piena */
+            margin-top: 5px; /* Spazio sopra il pulsante */
         }
 
         .margin-dx {
-            margin-right: 0.5rem;
+            margin-right: 0; /* Rimuovi margine destro per i pulsanti su mobile */
         }
     }
 </style>
