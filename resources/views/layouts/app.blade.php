@@ -24,7 +24,7 @@
         <nav class="navbar navbar-expand-md p-2 m-0 d-flex justify-content-between">
             <div class="app-container d-flex align-items-center w-100">
                 <div class="logo_dunder_mifflin">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Dunder_Mifflin%2C_Inc.svg/1200px-Dunder_Mifflin%2C_Inc.svg.png" alt="">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Dunder_Mifflin%2C_Inc.svg/1200px-Dunder_Mifflin%2C_Inc.svg.png" alt="Logo Dunder Mifflin">
                 </div>
 
                 <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,9 @@
                                     <a class="dropdown-item" href="{{ route('admin.dashboard') }}">{{ __('Dashboard') }}</a>
                                     <a class="dropdown-item" href="{{ route('admin.employees.index') }}">{{ __('Gestisci Dipendenti') }}</a>
                                     <a class="dropdown-item" href="{{ route('admin.orders.index') }}">{{ __('Gestisci Ordini') }}</a>
-                                    <a class="dropdown-item" href="{{ route('admin.offices.index') }}">{{ __('Gestisci Uffici') }}</a>
+                                    {{-- <a class="dropdown-item" href="{{ route('admin.offices.index') }}">{{ __('Gestisci Uffici') }}</a> --}}
+                                    <a class="dropdown-item" href="{{ route('admin.departments.index') }}">{{ __('Gestisci Dipartimenti') }}</a>
+                                    <a class="dropdown-item" href="{{ route('admin.suppliers.index') }}">{{ __('Gestisci Fornitori') }}</a>
                                     <a class="dropdown-item" href="{{ route('admin.statistics.index') }}">{{ __('Statistiche') }}</a>
                                 @elseif(Auth::user()->role === 'employee')
                                     <a class="dropdown-item" href="{{ route('employee.profile') }}">{{ __('Profilo') }}</a>
