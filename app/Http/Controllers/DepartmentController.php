@@ -12,7 +12,9 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        //
+        // Ottieni tutti i dipartimenti con paginazione
+        $departments = Department::paginate(10);
+        return view('admin.departments.index', compact('departments'));
     }
 
     /**
@@ -20,7 +22,7 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.departments.create');
     }
 
     /**
@@ -28,7 +30,17 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validazione dei dati
+        $request->validate([
+            'Department_Name' => 'required|string|max:255',
+            'ID_Office' => 'required|integer|exists:offices,id', // Assicurati che l'ID dell'ufficio esista
+            'Number_of_Employees' => 'nullable|integer|min:0',
+        ]);
+
+        // Crea un nuovo dipartimento
+        Department::create($request->all());
+
+        return redirect()->route('admin.departments.index')->with('success', 'Dipartimento creato con successo.');
     }
 
     /**
@@ -36,7 +48,7 @@ class DepartmentController extends Controller
      */
     public function show(Department $department)
     {
-        //
+        return view('admin.departments.show', compact('department'));
     }
 
     /**
@@ -44,7 +56,7 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department)
     {
-        //
+        return view('admin.departments.edit', compact('department'));
     }
 
     /**
@@ -52,7 +64,17 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, Department $department)
     {
-        //
+        // Validazione dei dati
+        $request->validate([
+            'Department_Name' => 'required|string|max:255',
+            'ID_Office' => 'required|integer|exists:offices,id', // Assicurati che l'ID dell'ufficio esista
+            'Number_of_Employees' => 'nullable|integer|min:0',
+        ]);
+
+        // Aggiorna il dipartimento
+        $department->update($request->all());
+
+        return redirect()->route('admin.departments.index')->with('success', 'Dipartimento aggiornato con successo.');
     }
 
     /**
@@ -60,6 +82,7 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department)
     {
-        //
+        $department->delete();
+        return redirect()->route('admin.departments.index')->with('success', 'Dipartimento eliminato con successo.');
     }
 }
