@@ -1,10 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CustomerController; // Importa il CustomerController
+use App\Http\Controllers\DepartmentController; // Importa il DepartmentController
+use App\Http\Controllers\SupplierController;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 // Rotta per la home
@@ -29,10 +32,12 @@ Route::middleware(['auth'])
         Route::resource('employees', EmployeeController::class); // Admin può gestire i dipendenti
         Route::resource('orders', OrderController::class); // Admin può gestire gli ordini
         Route::resource('offices', OfficeController::class); // Admin può gestire gli uffici
+        Route::resource('customers', CustomerController::class); // Admin può gestire i clienti
+        Route::resource('departments', DepartmentController::class); // Admin può gestire i dipartimenti
+        Route::resource('suppliers', SupplierController::class);
         Route::get('statistics', [EmployeeController::class, 'statistics'])->name('statistics.index');
     });
 
-// Gruppo di rotte protette da autenticazione per employee
 // Gruppo di rotte protette da autenticazione per employee
 Route::middleware(['auth', 'role:employee'])
     ->prefix('employee')
