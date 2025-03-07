@@ -93,7 +93,7 @@
 
     .table-header, .table-row {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-between; /* Distribuisce lo spazio tra le colonne */
         padding: 10px;
         border-bottom: 1px solid #ccc;
     }
@@ -109,37 +109,41 @@
 
     .table-row {
         display: flex;
-        padding: 10px;
+        padding: 5px;
     }
 
     .table-header div, .table-row div {
         text-align: left;
-        flex: 1; /* Permette di distribuire lo spazio in modo uniforme */
+        margin-right: 10px; /* Spazio tra le colonne */
+    }
+
+    .table-header div:last-child, .table-row div:last-child {
+        margin-right: 0; /* Rimuove il margine a destra per l'ultima colonna */
     }
 
     .col-id {
-        flex: 1;
+        flex: 0 0 50px; /* Larghezza fissa per ID */
     }
 
     .col-nome {
-        flex: 0 0 250px;
+        flex: 100px; /* Occupare lo spazio rimanente */
     }
 
     .col-contatto {
-        flex: 0 0 450px;
+        flex: 100px; /* Occupare lo spazio rimanente */
     }
 
     .col-indirizzo {
-        flex: 0 0 200px;
+        flex: 250px; /* Occupare lo spazio rimanente */
     }
 
     .col-azioni {
-        flex: 0 0 70px;
+        flex: 0 0 100px; /* Larghezza fissa per Azioni */
     }
 
     h1 {
         text-shadow:
-            -1px -1px 0 rgb(0        , 0, 0),
+            -1px -1px 0 rgb(0, 0, 0),
              1px -1px 0 rgb(0, 0, 0),
             -1px  1px 0 rgb(0, 0, 0),
             1px  1px 0 rgb(0, 0, 0);
@@ -202,35 +206,40 @@
             width: 100%; /* Pulsanti a larghezza piena su schermi piccoli */
             margin-top: 5px; /* Spazio sopra il pulsante */
         }
+
         .btn-info {
             width: 2rem;
             height: 1.5rem;
         }
+
         .btn-warning {
             width: 2rem;
             height: 1.5rem;
         }
-        .width-mobile{
+
+        .width-mobile {
             width: 100%;
         }
-        .col-id {
-        flex:1;
+
+    .col-id {
+        flex: 1;
     }
 
     .col-nome {
-        flex:1;
+        flex: 1;
     }
 
     .col-contatto {
-        flex:1;
+        flex: 1;
     }
 
     .col-indirizzo {
-        flex:1;
+        flex: 1;
     }
 
     .col-azioni {
-        flex:1;
+        flex: 1;
     }
+
     }
 </style>
