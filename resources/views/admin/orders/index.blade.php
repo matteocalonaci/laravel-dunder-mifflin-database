@@ -18,7 +18,7 @@
         @endif
 
         <!-- Pulsante per creare un nuovo ordine -->
-        <a href="{{ route('employee.orders.create') }}" class="btn btn-primary mb-3 w-100">Crea Nuovo Ordine</a>
+        <a href="{{ route('employee.orders.create') }}" class="btn btn-primary mb-3">Crea Nuovo Ordine</a>
 
         <div class="table-container">
             <div class="table-header">
@@ -26,6 +26,7 @@
                 <div class="col-data">Data</div>
                 <div class="col-quantita">Quantità</div>
                 <div class="col-prodotto">Prodotto</div>
+                <div class="col-cliente">Cliente</div> <!-- Nuova colonna per il cliente -->
                 <div class="col-azioni">Azioni</div>
             </div>
             <div class="table-body">
@@ -35,15 +36,16 @@
                         <div class="col-data">{{ \Carbon\Carbon::parse($order->Order_Date)->format('d/m/Y') }}</div>
                         <div class="col-quantita">{{ $order->Quantity }}</div>
                         <div class="col-prodotto">{{ $order->product->Product_Name ?? 'N/A' }}</div>
+                        <div class="col-cliente">{{ $order->customer->Customer_Name ?? 'N/A' }}</div> <!-- Mostra il nome del cliente -->
                         <div class="col-azioni">
-                            <a href="{{ route('employee.orders.edit', $order->id) }}" class="btn btn-warning btn-sm">
-                                <i class="fas fa-edit"></i> Modifica
+                            <a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i>
                             </a>
                         </div>
                     </div>
                 @empty
                     <div class="table-row">
-                        <div class="col-id" colspan="5" class="text-center">Nessun ordine trovato.</div>
+                        <div class="col-id" colspan="6" class="text-center">Nessun ordine trovato.</div>
                     </div>
                 @endforelse
             </div>
@@ -51,7 +53,7 @@
 
         <div class="pagination-container mt-3">
             <div class="pagination-wrapper">
-                {{ $orders->links('pagination::bootstrap-4') }} <!-- Paginazione -->
+                {{ $orders->links('pagination::bootstrap-4') }}
             </div>
         </div>
     </div>
@@ -112,12 +114,10 @@
     .table-row {
         display: flex;
         padding: 10px;
-        flex-wrap: wrap; /* Permette di avvolgere le righe su schermi piccoli */
     }
 
     .table-header div, .table-row div {
         text-align: left;
-        flex: 1; /* Permette di distribuire lo spazio in modo uniforme */
     }
 
     .col-id {
@@ -125,7 +125,7 @@
     }
 
     .col-data {
-        flex: 0 0        100px;
+        flex: 0 0 50px;
     }
 
     .col-quantita {
@@ -133,11 +133,15 @@
     }
 
     .col-prodotto {
-        flex: 0 0 230px;
+        flex: 0 0 200px;
+    }
+
+    .col-cliente {
+        flex: 0 0 200px;
     }
 
     .col-azioni {
-        flex: 0 0 110px;
+        flex: 0 0 70px;
     }
 
     h1 {
@@ -160,20 +164,19 @@
 
     @media (max-width: 768px) {
         .table-header {
-            display: none; /* Nascondi l'intestazione della tabella su schermi piccoli */
+            display: none;
         }
 
         .table-row {
-            flex-direction: column; /* Cambia la direzione delle righe per i dispositivi mobili */
+            flex-direction: column;
             padding: 10px;
-            border-bottom: 1px solid #ccc; /* Aggiungi un bordo inferiore per separare le righe */
+            border-bottom: 1px solid #ccc;
         }
 
         .table-row div {
             display: flex;
-            justify-content: space-between; /* Allinea i contenuti a sinistra e a destra */
-            margin-bottom: 5px; /* Spazio tra le righe */
-            width: 100%; /* Assicura che le righe occupino tutta la larghezza */
+            justify-content: space-between;
+            width: 100%;
         }
 
         .col-id::before {
@@ -196,23 +199,53 @@
             font-weight: bold;
         }
 
+        .col-cliente::before {
+            content: "Cliente: ";
+            font-weight: bold;
+        }
+
         .col-azioni::before {
             content: "Azioni: ";
             font-weight: bold;
         }
 
         .btn-warning {
-            width: 100%; /* Pulsante di modifica a larghezza piena */
-            margin-top: 5px; /* Spazio sopra il pulsante */
+            width: 1rem;
+            height: 1.5rem;
+            font-size: 0.8rem;
         }
 
-        .btn-info {
-            width: 100%; /* Pulsante di visualizzazione a larghezza piena */
-            margin-top: 5px; /* Spazio sopra il pulsante */
+        .btn-primary {
+            width: 100%; /* Pulsante a larghezza piena su schermi piccoli */
         }
 
-        .margin-dx {
-            margin-right: 0; /* Rimuovi margine destro per i pulsanti su mobile */
+        .pagination-wrapper {
+            margin-left: 11rem;
         }
+
+        .col-id {
+            flex: 1;
+        }
+
+    .col-data {
+        flex: 1;
+    }
+
+    .col-quantita {
+        flex: 1;
+    }
+
+    .col-prodotto {
+        flex: 1;
+    }
+
+    .col-cliente {
+        flex: 1;
+    }
+
+    .col-azioni {
+        flex: 1;
+    }
+
     }
 </style>

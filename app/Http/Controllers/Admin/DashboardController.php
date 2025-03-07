@@ -11,9 +11,11 @@ class DashboardController extends Controller
     {
         // Reindirizza in base al ruolo dell'utente
         if (Auth::user()->role === 'admin') {
-            return redirect()->route('admin.employees.index'); // Reindirizza a Gestisci Dipendenti
+            return redirect()->route('admin.dashboard'); // Reindirizza a Gestisci Dipendenti
         } else {
-            return redirect()->route('employee.profile'); // Reindirizza al Profilo
+            return redirect()->route('employee.dashboard'); // Reindirizza al Profilo
         }
     }
 }
+
+

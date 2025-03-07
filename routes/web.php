@@ -24,16 +24,20 @@ Route::get('/register', function () {
 });
 
 // Gruppo di rotte protette da autenticazione per admin
+// Gruppo di rotte protette da autenticazione per admin
 Route::middleware(['auth'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-        Route::resource('employees', EmployeeController::class); // Admin può gestire i dipendenti
-        Route::resource('orders', OrderController::class); // Admin può gestire gli ordini
-        Route::resource('offices', OfficeController::class); // Admin può gestire gli uffici
-        Route::resource('customers', CustomerController::class); // Admin può gestire i clienti
-        Route::resource('departments', DepartmentController::class); // Admin può gestire i dipartimenti
+        Route::get('/', function () {
+            return view('admin.dashboard'); // Mostra la dashboard dell'admin
+        })->name('dashboard');
+
+        Route::resource('employees', EmployeeController::class);
+        Route::resource('orders', OrderController::class);
+        Route::resource('offices', OfficeController::class);
+        Route::resource('customers', CustomerController::class);
+        Route::resource('departments', DepartmentController::class);
         Route::resource('suppliers', SupplierController::class);
         Route::get('statistics', [EmployeeController::class, 'statistics'])->name('statistics.index');
     });
@@ -43,13 +47,16 @@ Route::middleware(['auth', 'role:employee'])
     ->prefix('employee')
     ->name('employee.')
     ->group(function () {
-        Route::get('/profile', [EmployeeController::class, 'showProfile'])->name('profile'); // Visualizza il profilo dell'employee
-        Route::get('/orders', [EmployeeController::class, 'showOrders'])->name('orders.index'); // Visualizza solo gli ordini dell'employee
-        Route::get('/orders/{order}/edit', [EmployeeController::class, 'editOrder'])->name('orders.edit'); // Modifica ordine
-        Route::put('/orders/{order}', [EmployeeController::class, 'updateOrder'])->name('orders.update'); // Aggiorna ordine
-        Route::get('/orders/create', [EmployeeController::class, 'createOrder'])->name('orders.create'); // Mostra il modulo di creazione
-        Route::post('/orders', [EmployeeController::class, 'storeOrder'])->name('orders.store'); // Salva il nuovo ordine
-    });
+        Route::get('/dashboard', function () {
+            return view('employee.dashboard');
+        })->name('dashboard');
 
+        Route::get('/profile', [EmployeeController::class, 'showProfile'])->name('profile');
+        Route::get('/orders', [EmployeeController::class, 'showOrders'])->name('orders.index');
+        Route::get('/orders/{order}/edit', [EmployeeController::class, 'editOrder'])->name('orders.edit');
+        Route::put('/orders/{order}', [EmployeeController::class, 'updateOrder'])->name('orders.update');
+        Route::get('/orders/create', [EmployeeController::class, 'createOrder'])->name('orders.create');
+        Route::post('/orders', [EmployeeController::class, 'storeOrder'])->name('orders.store');
+    });
 // Includi le rotte di autenticazione
 require __DIR__ . '/auth.php';

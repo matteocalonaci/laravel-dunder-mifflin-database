@@ -53,7 +53,7 @@
 
         <div class="pagination-container mt-3">
             <div class="pagination-wrapper">
-                {{ $orders->links('pagination::bootstrap-4') }} <!-- Paginazione -->
+                {{ $orders->links('pagination::bootstrap-4') }}
             </div>
         </div>
     </div>
@@ -137,7 +137,7 @@
     }
 
     .col-cliente {
-        flex: 0 0 200px; /* Larghezza per la colonna Cliente */
+        flex: 0 0 200px;
     }
 
     .col-azioni {
@@ -164,20 +164,19 @@
 
     @media (max-width: 768px) {
         .table-header {
-            display: none; /* Nascondi l'intestazione della tabella su schermi piccoli */
+            display: none;
         }
 
         .table-row {
-            flex-direction: column; /* Cambia la direzione delle righe per i dispositivi mobili */
+            flex-direction: column;
             padding: 10px;
-            border-bottom: 1px solid #ccc; /* Aggiungi un bordo inferiore per separare le righe */
+            border-bottom: 1px solid #ccc;
         }
 
         .table-row div {
             display: flex;
-            justify-content: space-between; /* Allinea i contenuti a sinistra e a destra */
-            margin-bottom: 5px; /* Spazio tra le righe */
-            width: 100%; /* Assicura che le righe occupino tutta la larghezza */
+            justify-content: space-between;
+            width: 100%;
         }
 
         .col-id::before {
@@ -211,8 +210,9 @@
         }
 
         .btn-warning {
-            width: 2rem;
+            width: 1rem;
             height: 1.5rem;
+            font-size: 0.8rem;
         }
 
         .btn-primary {
@@ -246,5 +246,6 @@
     .col-azioni {
         flex: 1;
     }
+
     }
 </style>
