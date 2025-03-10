@@ -112,30 +112,47 @@
         padding: 10px;
     }
 
+    .table-header, .table-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+
     .table-header div, .table-row div {
         text-align: left;
-        flex: 1;
+        min-width: 0; /* Previene l'overflow */
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .col-id {
-        flex: 0 0 50px;
+        flex: 0 0 70px; /* Larghezza fissa aumentata */
+        text-align: center;
     }
 
     .col-nome {
-        flex: 0 0 250px;
+        flex: 1; /* Priorità maggiore per il nome */
     }
 
     .col-contatto {
-        flex: 0 0 150px;
+        flex: 1;
+s    }
+
+    .col-prodotto {
+        flex: 0 0 380px;
+    }
+
+    .col-azioni {
+        flex: 0 0 80px;
+        display: flex;
+        justify-content: flex-end; /* Allinea i pulsanti a destra */
+        gap: 5px;
+    }
+    .btn-warning {
+            width: 2rem;
+            height: 1.5rem;
         }
-
-.col-prodotto {
-    flex: 0 0 200px;
-}
-
-.col-azioni {
-    flex: 0 0 100px;
-}
 
 h1, label {
     text-shadow:
@@ -210,5 +227,25 @@ h1, label {
         .width-mobile{
             width: 100%;
         }
+        .col-id {
+            flex: 1;
+}
+
+    .col-nome {
+        flex: 1;
+    }
+
+    .col-contatto {
+        flex: 1;
+    }
+
+    .col-prodotto {
+        flex: 1;
+    }
+
+    .col-azioni {
+        flex: 1;
+
+    }
 }
 </style>
