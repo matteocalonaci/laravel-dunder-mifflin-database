@@ -51,7 +51,7 @@
                                     <a class="dropdown-item" href="{{ route('admin.dashboard') }}">{{ __('Dashboard') }}</a>
                                     <a class="dropdown-item" href="{{ route('admin.employees.index') }}">{{ __('Gestisci Dipendenti') }}</a>
                                     <a class="dropdown-item" href="{{ route('admin.orders.index') }}">{{ __('Gestisci Ordini') }}</a>
-                                    {{-- <a class="dropdown-item" href="{{ route('admin.offices.index') }}">{{ __('Gestisci Uffici') }}</a> --}}
+                                    <a class="dropdown-item" href="{{ route('admin.customers.index') }}">{{ __('Gestisci Clienti') }}</a>
                                     <a class="dropdown-item" href="{{ route('admin.departments.index') }}">{{ __('Gestisci Dipartimenti') }}</a>
                                     <a class="dropdown-item" href="{{ route('admin.suppliers.index') }}">{{ __('Gestisci Fornitori') }}</a>
                                     <a class="dropdown-item" href="{{ route('admin.statistics.index') }}">{{ __('Statistiche') }}</a>

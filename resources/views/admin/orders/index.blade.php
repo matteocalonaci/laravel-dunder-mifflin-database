@@ -175,42 +175,47 @@
 
         .table-row div {
             display: flex;
-            justify-content: space-between;
             width: 100%;
         }
 
         .col-id::before {
             content: "ID: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .col-data::before {
             content: "Data: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .col-quantita::before {
             content: "Quantità: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .col-prodotto::before {
             content: "Prodotto: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .col-cliente::before {
             content: "Cliente: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .col-azioni::before {
             content: "Azioni: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .btn-warning {
-            width: 1rem;
+            width: 1.8rem;
             height: 1.5rem;
             font-size: 0.8rem;
         }

@@ -3,7 +3,7 @@
 @section('content')
     <div class="background-image">
         <div class="container">
-            <h1 class="mb-4 text-white">Elenco Dipendenti</h1>
+            <h1 class="mb-4 text-white text-center">Elenco Dipendenti</h1>
 
             @if (session('success'))
                 <div class="alert alert-success">
@@ -17,7 +17,7 @@
                 </div>
             @endif
 
-            <a href="{{ route('admin.employees.create') }}" class="btn btn-primary mb-3">Aggiungi Dipendente</a>
+            <a href="{{ route('admin.employees.create') }}" class="btn btn-primary width-mobile mb-3">Aggiungi Dipendente</a>
 
             <div class="table-container">
                 <div class="table-header">
@@ -218,40 +218,52 @@
         .col-id::before {
             content: "ID: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .col-nome::before {
             content: "Nome: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .col-cognome::before {
             content: "Cognome: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .col-email::before {
             content: "Email: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .col-dipartimento::before {
             content: "Dipartimento: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .col-azioni::before {
             content: "Azioni: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .btn-info {
             width: 2rem;
             height: 1.5rem;
+            margin-right: 0.5rem;
         }
         .btn-warning {
             width: 2rem;
             height: 1.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .width-mobile{
+            width: 100%;
         }
     }
 </style>

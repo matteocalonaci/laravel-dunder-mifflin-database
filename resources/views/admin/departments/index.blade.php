@@ -93,7 +93,7 @@
 
     .table-header, .table-row {
         display: flex;
-        justify-content: space-between; /* Distribuisce lo spazio tra le colonne */
+        justify-content: space-between;
         padding: 10px;
         border-bottom: 1px solid #ccc;
     }
@@ -117,23 +117,23 @@
     }
 
     .col-id {
-        flex: 0 0 50px; /* Larghezza fissa per ID */
+        flex: 0 0 50px;
     }
 
     .col-nome {
-        flex: 1; /* Occupare lo spazio rimanente */
+        flex: 1;
     }
 
     .col-ufficio {
-        flex: 1; /* Occupare lo spazio rimanente */
+        flex: 1;
     }
 
     .col-dipendenti {
-        flex: 1; /* Occupare lo spazio rimanente */
+        flex: 1;
     }
 
     .col-azioni {
-        flex: 0 0 100px; /* Larghezza fissa per Azioni */
+        flex: 0 0 100px;
     }
 
     h1 {
@@ -156,45 +156,50 @@
 
     @media (max-width: 768px) {
         .table-header {
-            display: none; /* Nascondi l'intestazione della tabella su schermi piccoli */
+            display: none;
         }
 
         .table-row {
-            flex-direction: column; /* Cambia la direzione delle righe per i dispositivi mobili */
+            flex-direction: column;
             padding: 10px;
-            border-bottom: 1px solid #ccc; /* Aggiungi un bordo inferiore per separare le righe */
+            border-bottom: 1px solid #ccc;
         }
 
         .table-row div {
             display: flex;
-            justify-content: flex-start; /* Allinea i contenuti a sinistra */
-            margin-bottom: 5px; /* Spazio tra le righe */
-            width: 100%; /* Assicura che le righe occupino tutta la larghezza */
+            justify-content: flex-start;
+            margin-bottom: 5px;
+            width: 100%;
         }
 
         .col-id::before {
             content: "ID: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .col-nome::before {
             content: "Nome Dipartimento: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .col-ufficio::before {
             content: "ID Ufficio: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .col-dipendenti::before {
             content: "Numero di Dipendenti: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .col-azioni::before {
             content: "Azioni: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .btn-warning {

@@ -93,7 +93,7 @@
 
     .table-header, .table-row {
         display: flex;
-        justify-content: space-between; /* Distribuisce lo spazio tra le colonne */
+        justify-content: space-between;
         padding: 10px;
         border-bottom: 1px solid #ccc;
     }
@@ -114,31 +114,31 @@
 
     .table-header div, .table-row div {
         text-align: left;
-        margin-right: 10px; /* Spazio tra le colonne */
+        margin-right: 10px;
     }
 
     .table-header div:last-child, .table-row div:last-child {
-        margin-right: 0; /* Rimuove il margine a destra per l'ultima colonna */
+        margin-right: 0;
     }
 
     .col-id {
-        flex: 0 0 50px; /* Larghezza fissa per ID */
+        flex: 0 0 50px;
     }
 
     .col-nome {
-        flex: 100px; /* Occupare lo spazio rimanente */
+        flex: 100px;
     }
 
     .col-contatto {
-        flex: 100px; /* Occupare lo spazio rimanente */
+        flex: 80px;
     }
 
     .col-indirizzo {
-        flex: 250px; /* Occupare lo spazio rimanente */
+        flex: 350px;
     }
 
     .col-azioni {
-        flex: 0 0 100px; /* Larghezza fissa per Azioni */
+        flex: 0 0 100px;
     }
 
     h1 {
@@ -161,13 +161,13 @@
 
     @media (max-width: 768px) {
         .table-header {
-            display: none; /* Nascondi l'intestazione della tabella su schermi piccoli */
+            display: none;
         }
 
         .table-row {
-            flex-direction: column; /* Cambia la direzione delle righe per i dispositivi mobili */
+            flex-direction: column;
             padding: 10px;
-            border-bottom: 1px solid #ccc; /* Aggiungi un bordo inferiore per separare le righe */
+            border-bottom: 1px solid #ccc;
         }
 
         .table-row div {
@@ -180,31 +180,36 @@
         .col-id::before {
             content: "ID: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .col-nome::before {
             content: "Nome Cliente: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .col-contatto::before {
             content: "Numero di Contatto: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .col-indirizzo::before {
             content: "Indirizzo: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .col-azioni::before {
             content: "Azioni: ";
             font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .btn-warning, .btn-danger {
-            width: 100%; /* Pulsanti a larghezza piena su schermi piccoli */
-            margin-top: 5px; /* Spazio sopra il pulsante */
+            width: 100%;
+            margin-top: 5px;
         }
 
         .btn-info {

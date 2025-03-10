@@ -114,15 +114,15 @@
 
     .table-header div, .table-row div {
         text-align: left;
-        flex: 1; /* Permette di distribuire lo spazio in modo uniforme */
+        flex: 1;
     }
 
     .col-id {
-        flex: 0 0 50px; /* Larghezza fissa per ID */
+        flex: 0 0 50px;
     }
 
     .col-nome {
-        flex: 0 0 250px; /* Larghezza fissa per Nome Fornitore */
+        flex: 0 0 250px;
     }
 
     .col-contatto {
@@ -130,11 +130,11 @@
         }
 
 .col-prodotto {
-    flex: 0 0 200px; /* Larghezza fissa per Indirizzo */
+    flex: 0 0 200px;
 }
 
 .col-azioni {
-    flex: 0 0 100px; /* Larghezza fissa per Azioni */
+    flex: 0 0 100px;
 }
 
 h1, label {
@@ -157,45 +157,50 @@ h1, label {
 
 @media (max-width: 768px) {
     .table-header {
-        display: none; /* Nascondi l'intestazione della tabella su schermi piccoli */
+        display: none;
     }
 
     .table-row {
-        flex-direction: column; /* Cambia la direzione delle righe per i dispositivi mobili */
+        flex-direction: column;
         padding: 10px;
-        border-bottom: 1px solid #ccc; /* Aggiungi un bordo inferiore per separare le righe */
+        border-bottom: 1px solid #ccc;
     }
 
     .table-row div {
         display: flex;
-        justify-content: flex-start; /* Allinea i contenuti a sinistra */
-        margin-bottom: 5px; /* Spazio tra le righe */
-        width: 100%; /* Assicura che le righe occupino tutta la larghezza */
+        justify-content: flex-start;
+        margin-bottom: 5px;
+        width: 100%;
     }
 
     .col-id::before {
         content: "ID: ";
         font-weight: bold;
+        margin-right: 0.5rem;
     }
 
     .col-nome::before {
         content: "Nome Fornitore: ";
         font-weight: bold;
+        margin-right: 0.5rem;
     }
 
     .col-contatto::before {
         content: "Numero di Contatto: ";
         font-weight: bold;
+        margin-right: 0.5rem;
     }
 
     .col-prodotto::before {
         content: "Indirizzo: ";
         font-weight: bold;
+        margin-right: 0.5rem;
     }
 
     .col-azioni::before {
         content: "Azioni: ";
         font-weight: bold;
+        margin-right: 0.5rem;
     }
 
     .btn-warning {
