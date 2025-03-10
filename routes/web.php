@@ -3,6 +3,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,8 @@ Route::middleware(['auth', 'role:admin'])
         Route::resource('customers', CustomerController::class); // Customer completo per admin
         Route::resource('departments', DepartmentController::class);
         Route::resource('suppliers', SupplierController::class);
+        Route::resource('offices', OfficeController::class);
+
         Route::get('statistics', [EmployeeController::class, 'statistics'])->name('statistics.index');
     });
 

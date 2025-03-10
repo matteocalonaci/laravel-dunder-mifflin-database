@@ -58,7 +58,7 @@
 
 <style scoped>
     .background-image {
-        background-image: url('https://media.timeout.com/images/105824238/750/422/image.jpg');
+        background-image: url('https://media.glassdoor.com/l/1d/0c/e0/81/the-office.jpg?signature=08ee453a9f01b8338e79ea01fbec6f37e094f657ed4f6d408ef3989eef66df91');
         background-size: cover;
         background-position: center;
         height: 100vh;
