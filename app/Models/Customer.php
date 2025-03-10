@@ -20,4 +20,8 @@ class Customer extends Model
 {
     return $this->hasMany(Order::class, 'ID_Customer');
 }
+public function employee()
+{
+    return $this->belongsTo(User::class);
+}
 }

@@ -146,7 +146,7 @@ s    }
     .col-azioni {
         flex: 0 0 80px;
         display: flex;
-        justify-content: flex-end; /* Allinea i pulsanti a destra */
+        justify-content: flex-end;
         gap: 5px;
     }
     .btn-warning {

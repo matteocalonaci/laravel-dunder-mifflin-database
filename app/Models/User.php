@@ -25,9 +25,23 @@ class User extends Authenticatable
 
     public $timestamps = true;
 
-    // Definisci la relazione con il modello Employee
+    public function isAdmin(): bool
+    {
+        return strtolower($this->role) === 'admin';
+    }
+
+    public function isEmployee(): bool
+    {
+        return strtolower($this->role) === 'employee';
+    }
+
+    // Relazione con il modello Employee
     public function employee()
     {
-        return $this->hasOne(Employee::class, 'ID_User'); // Assicurati che 'ID_User' sia il campo corretto
+        return $this->hasOne(Employee::class, 'ID_User');
     }
+    public function customers()
+{
+    return $this->hasMany(Customer::class);
+}
 }

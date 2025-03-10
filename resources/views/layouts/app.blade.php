@@ -56,7 +56,8 @@
                                     <a class="dropdown-item" href="{{ route('admin.suppliers.index') }}">{{ __('Gestisci Fornitori') }}</a>
                                     <a class="dropdown-item" href="{{ route('admin.statistics.index') }}">{{ __('Statistiche') }}</a>
                                 @elseif(Auth::user()->role === 'employee')
-                                    <a class="dropdown-item" href="{{ route('employee.profile') }}">{{ __('Profilo') }}</a>
+                                <a class="dropdown-item" href="{{ route('employee.dashboard') }}">{{ __('Dashboard') }}</a>
+                                <a class="dropdown-item" href="{{ route('employee.profile') }}">{{ __('Profilo') }}</a>
                                     <a class="dropdown-item" href="{{ route('employee.orders.index') }}">{{ __('I miei Ordini') }}</a>
                                 @endif
 
