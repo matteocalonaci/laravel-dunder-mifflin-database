@@ -93,7 +93,7 @@
 
     .table-header, .table-row {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-between; /* Distribuisce lo spazio tra le colonne */
         padding: 10px;
         border-bottom: 1px solid #ccc;
     }
@@ -114,7 +114,6 @@
 
     .table-header div, .table-row div {
         text-align: left;
-        flex: 1; /* Permette di distribuire lo spazio in modo uniforme */
     }
 
     .col-id {
@@ -122,15 +121,15 @@
     }
 
     .col-nome {
-        flex: 0 0 250px; /* Larghezza fissa per Nome Dipartimento */
+        flex: 1; /* Occupare lo spazio rimanente */
     }
 
     .col-ufficio {
-        flex: 0 0 100px; /* Larghezza fissa per ID Ufficio */
+        flex: 1; /* Occupare lo spazio rimanente */
     }
 
     .col-dipendenti {
-        flex: 0 0 150px; /* Larghezza fissa per Numero di Dipendenti */
+        flex: 1; /* Occupare lo spazio rimanente */
     }
 
     .col-azioni {
@@ -170,7 +169,7 @@
             display: flex;
             justify-content: flex-start; /* Allinea i contenuti a sinistra */
             margin-bottom: 5px; /* Spazio tra le righe */
-            width: 100%; /* Assicura che le righe occupino tutta            larghezza */
+            width: 100%; /* Assicura che le righe occupino tutta la larghezza */
         }
 
         .col-id::before {
@@ -202,5 +201,36 @@
             width: 2rem;
             height: 1.5rem;
         }
+
+        /* Aggiungi margini tra le colonne */
+        .table-header div:not(:last-child),
+        .table-row div:not(:last-child) {
+            margin-right: 15px;
+        }
+
+    .width-mobile{
+        width: 100%;
+    }
+
+    .col-id {
+        flex: 1;
+    }
+
+    .col-nome {
+        flex: 1;
+    }
+
+    .col-ufficio {
+        flex: 1;
+    }
+
+    .col-dipendenti {
+        flex: 1;
+    }
+
+    .col-azioni {
+        flex: 1;
+    }
+
     }
 </style>
