@@ -200,9 +200,17 @@ public function update(Request $request, Employee $employee)
 
     public function showOrders()
     {
-        // Ottieni gli ordini dell'utente autenticato, carica i dettagli del prodotto e ordina per data in modo decrescente
-        $orders = Auth::user()->employee->orders()
-            ->with('product')
+        // Ottieni l'utente autenticato
+        $user = Auth::user();
+
+        // Assicurati che l'utente abbia un dipendente associato
+        if (!$user->employee) {
+            return redirect()->back()->with('error', 'Profilo dipendente non trovato.');
+        }
+
+        // Recupera solo gli ordini associati all'ID del venditore autenticato
+        $orders = $user->employee->orders()
+            ->with('product', 'customer') // Carica anche i dettagli del prodotto e del cliente
             ->orderBy('Order_Date', 'desc') // Ordina per data dell'ordine in modo decrescente
             ->paginate(9); // Paginazione con 9 ordini per pagina
 

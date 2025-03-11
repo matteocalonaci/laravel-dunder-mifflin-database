@@ -50,17 +50,8 @@ Route::middleware(['auth', 'role:employee'])
         Route::get('/profile', [EmployeeController::class, 'showProfile'])->name('profile');
 
         // Ordini
-        Route::resource('orders', OrderController::class)->only([
-            'index', 'show', 'create', 'store', 'edit', 'update'
-        ]);
-
-        // Clienti con controller separato
-        Route::prefix('customers')->group(function () {
-            Route::get('/', [CustomerController::class, 'employeeIndex'])->name('customers.index');
-            Route::get('/create', [CustomerController::class, 'employeeCreate'])->name('customers.create');
-            Route::post('/', [CustomerController::class, 'employeeStore'])->name('customers.store');
-            Route::get('/{customer}', [CustomerController::class, 'employeeShow'])->name('customers.show');
-        });
+        Route::get('orders', [OrderController::class, 'userOrders'])->name('orders.index'); // Rotta per gli ordini del dipendente
+        Route::resource('orders', OrderController::class)->only(['create', 'store', 'edit', 'update', 'show']);
     });
 
 require __DIR__ . '/auth.php';

@@ -7,14 +7,34 @@ use App\Models\Employee;
 use App\Models\Customer;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    // Mostra la lista degli ordini
+    // Mostra la lista degli ordini per admin
     public function index()
     {
         $orders = Order::with(['employee', 'customer', 'product'])->paginate(9); // Recupera tutti gli ordini con le relazioni e li pagina
         return view('admin.orders.index', compact('orders')); // Restituisce la vista con gli ordini
+    }
+
+    // Mostra la lista degli ordini per il dipendente
+    public function userOrders()
+    {
+        $user = Auth::user();
+
+        // Assicurati che l'utente abbia un dipendente associato
+        if (!$user->employee) {
+            return redirect()->back()->with('error', 'Profilo dipendente non trovato.');
+        }
+
+        // Recupera solo gli ordini associati all'ID del venditore autenticato
+        $orders = $user->employee->orders()
+            ->with('product', 'customer') // Carica anche i dettagli del prodotto e del cliente
+            ->orderBy('Order_Date', 'desc') // Ordina per data dell'ordine in modo decrescente
+            ->paginate(9); // Paginazione con 9 ordini per pagina
+
+        return view('employee.orders.index', compact('orders'));
     }
 
     // Mostra il modulo per creare un nuovo ordine
@@ -31,7 +51,15 @@ class OrderController extends Controller
     {
         $this->validateOrder($request); // Usa un metodo privato per la validazione
 
-        Order::create($request->all()); // Crea un nuovo ordine
+        // Crea un nuovo ordine e imposta l'ID dell'utente autenticato
+        Order::create([
+            'Order_Date' => $request->Order_Date,
+            'Quantity' => $request->Quantity,
+            'ID_User' => Auth::user()->employee->ID_User, // Imposta l'ID dell'utente autenticato
+            'ID_Customer' => $request->ID_Customer,
+            'ID_Product' => $request->ID_Product,
+        ]);
+
         return redirect()->route('admin.orders.index')->with('success', 'Ordine creato con successo.'); // Reindirizza alla lista degli ordini
     }
 
