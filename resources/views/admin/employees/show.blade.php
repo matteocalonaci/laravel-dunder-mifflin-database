@@ -54,7 +54,7 @@
     <h3>📊 Prestazioni di vendita</h3>
 
     {{-- Dropdown per selezionare il mese --}}
-    <div class="form-group">
+    {{-- <div class="form-group">
         <label for="monthSelect">Seleziona Mese:</label>
         <select id="monthSelect" class="form-control" onchange="updateSalesSummary(this.value)">
             <option value="0">Ultimo Mese (Corrente)</option>
@@ -74,7 +74,7 @@
                 return $order->Quantity * $order->product->price;
             }), 2) }}</span>
         </div>
-    </div>
+    </div> --}}
 
     <h4>Transazioni Recenti (Ultimo Mese)</h4>
     <div class="table-responsive">
@@ -103,53 +103,57 @@
     </div>
 </div>
 
-<script>
-    function updateSalesSummary(monthIndex) {
-        const now = new Date();
-        let startDate;
-        let endDate;
+{{-- <script>
+  function updateSalesSummary(monthIndex) {
+    const now = new Date();
+    let startDate;
+    let endDate;
 
-        // Calcola le date di inizio e fine in base al mese selezionato
-        if (monthIndex == 0) {
-            startDate = new Date(now.getFullYear(), now.getMonth(), 1); // Inizio del mese corrente
-            endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0); // Fine del mese corrente
-        } else if (monthIndex == 1) {
-            startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1); // Inizio del mese scorso
-            endDate = new Date(now.getFullYear(), now.getMonth(), 0); // Fine del mese scorso
-        } else if (monthIndex == 2) {
-            startDate = new Date(now.getFullYear(), now.getMonth() - 2, 1); // Inizio del mese 2 mesi fa
-            endDate = new Date(now.getFullYear(), now.getMonth() - 1, 0); // Fine del mese 2 mesi fa
-        }
-
-        // Filtra gli ordini in base alle date
-        const orders = @json($employee->orders);
-        const filteredOrders = orders.filter(order => {
-            const orderDate = new Date(order.Order_Date);
-            return orderDate >= startDate && orderDate <= endDate;
-        });
-
-        // Aggiorna le statistiche
-        document.getElementById('totalOrders').innerText = filteredOrders.length;
-        document.getElementById('totalSales').innerText = '€' + filteredOrders.reduce((total, order) => {
-            return total + (order.Quantity * order.product.price);
-        }, 0).toFixed(2);
-
-        // Aggiorna le transazioni recenti
-        const recentTransactions = document.getElementById('recentTransactions');
-        recentTransactions.innerHTML = '';
-        filteredOrders.sort((a, b) => new Date(b.Order_Date) - new Date(a.Order_Date)).slice(0, 5).forEach(order => {
-            recentTransactions.innerHTML += `
-                <tr>
-                    <td data-label="Data">${new Date(order.Order_Date).toLocaleDateString()}</td>
-                    <td data-label="Prodotti">${order.product.Product_Name ?? 'N/A'}</td>
-                    <td data-label="Quantità">${order.Quantity}</td>
-                    <td data-label="Prezzo">€${(order.Quantity * order.product.price).toFixed(2)}</td>
-                    <td data-label="Cliente">${order.customer.Customer_Name}</td>
-                </tr>
-            `;
-        });
+    // Calcola le date di inizio e fine in base al mese selezionato
+    if (monthIndex == 0) {
+        startDate = new Date(now.getFullYear(), now.getMonth(), 1); // Inizio del mese corrente
+        endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0); // Fine del mese corrente
+    } else if (monthIndex == 1) {
+        startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1); // Inizio del mese scorso
+        endDate = new Date(now.getFullYear(), now.getMonth(), 0); // Fine del mese scorso
+    } else if (monthIndex == 2) {
+        startDate = new Date(now.getFullYear(), now.getMonth() - 2, 1); // Inizio del mese 2 mesi fa
+        endDate = new Date(now.getFullYear(), now.getMonth() - 1, 0); // Fine del mese 2 mesi fa
     }
-</script>
+
+    // Filtra gli ordini in base alle date
+    const orders = @json($employee->orders);
+    const filteredOrders = orders.filter(order => {
+        const orderDate = new Date(order.Order_Date);
+        return orderDate >= startDate && orderDate <= endDate;
+    });
+
+    // Aggiorna le statistiche
+    const totalSales = filteredOrders.reduce((total, order) => {
+        if (order.product) {
+            return total + (order.Quantity * order.product.price);
+        }
+        return total; // Ignora gli ordini senza prodotto
+    }, 0);
+
+    document.getElementById('totalOrders').innerText = filteredOrders.length;
+    document.getElementById('totalSales').innerText = '€' + totalSales.toFixed(2);
+
+    // Aggiorna le transazioni recenti
+    const recentTransactions = document.getElementById('recentTransactions');
+    recentTransactions.innerHTML = '';
+    filteredOrders.sort((a, b) => new Date(b.Order_Date) - new Date(a.Order_Date)).slice(0, 5).forEach(order => {
+        recentTransactions.innerHTML += `
+            <tr>
+                <td data-label="Data">${new Date(order.Order_Date).toLocaleDateString()}</td>
+                <td data-label="Prodotti">${order.product ? order.product.Product_Name : 'N/A'}</td>
+                <td data-label="Quantità">${order.Quantity}</td>
+                <td data-label="Prezzo">€${(order.Quantity * (order.product ? order.product.price : 0)).toFixed(2)}</td>
+                <td data-label="Cliente">${order.customer ? order.customer.Customer_Name : 'N/A'}</td>
+            </tr>
+        `;
+    });
+}</script> --}}
 @endif
     </div>
 </div>

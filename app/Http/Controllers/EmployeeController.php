@@ -21,11 +21,16 @@ class EmployeeController extends Controller
         $endOfMonth = now()->endOfMonth();
 
         // Ottieni l'ID del dipartimento Vendite
-        $salesDepartmentId = Department::where('Department_Name', 'Vendite')->value('id'); // Usa 'Department_Name' qui
+        $salesDepartmentId = Department::where('Department_Name', 'Vendite')->value('id');
+
+        // Controlla se il dipartimento Vendite esiste
+        if (!$salesDepartmentId) {
+            return redirect()->back()->with('error', 'Dipartimento Vendite non trovato.');
+        }
 
         // Ottieni solo i dipendenti del dipartimento Vendite
         $employees = Employee::with(['orders.product', 'orders.customer'])
-            ->where('ID_Department', $salesDepartmentId) // Filtra per ID_Department
+            ->where('ID_Department', $salesDepartmentId)
             ->get()
             ->map(function ($employee) use ($startOfMonth, $endOfMonth) {
                 // Filtra gli ordini del mese corrente
@@ -34,9 +39,9 @@ class EmployeeController extends Controller
                 });
 
                 // Calcola la quantità totale e il profitto totale
-                $totalQuantity = $sales->sum('Quantity'); // Somma delle quantità vendute
+                $totalQuantity = $sales->sum('Quantity');
                 $totalProfit = $sales->sum(function ($order) {
-                    return $order->Quantity * $order->product->price; // Calcolo del valore totale degli ordini
+                    return $order->Quantity * $order->product->price;
                 });
 
                 return [
@@ -45,12 +50,11 @@ class EmployeeController extends Controller
                     'totalProfit' => $totalProfit,
                 ];
             })
-            ->sortByDesc('totalProfit') // Ordina per profitto totale
-            ->values(); // Rimuove le chiavi originali per avere un array indicizzato
+            ->sortByDesc('totalProfit')
+            ->values();
 
         return view('admin.statistics.index', compact('employees'));
     }
-
     public function index()
     {
         // Controlla se l'utente autenticato è un admin
@@ -124,16 +128,17 @@ class EmployeeController extends Controller
             return $order->Order_Date >= $startOfMonth && $order->Order_Date <= $endOfMonth;
         });
 
+        // Aggiungi questo per controllare gli ordini filtrati
+
         // Calcola la quantità totale e il profitto totale
-        $totalQuantity = $sales->sum('Quantity'); // Somma delle quantità vendute
+        $totalQuantity = $sales->sum('Quantity');
         $totalProfit = $sales->sum(function ($order) {
-            return $order->Quantity * $order->product->price; // Calcolo del valore totale degli ordini
+            return $order->Quantity * $order->product->price;
         });
 
         // Mostra i dettagli di un dipendente specifico
         return view('admin.employees.show', compact('employee', 'totalQuantity', 'totalProfit'));
     }
-
     /**
      * Show the form for editing the specified resource.
      */

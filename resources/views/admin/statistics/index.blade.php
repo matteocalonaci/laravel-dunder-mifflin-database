@@ -2,11 +2,12 @@
 
 @section('content')
 <div class="background-image">
-    <div class="container ">
+    <div class="container">
         <h1 class="text-white text-center mb-4">Migliori Venditori del Mese - {{ now()->format('F Y') }}</h1>
 
         <div class="row">
-            <div class="col-md-5">
+            <!-- Classifica Venditori per Desktop -->
+            <div class="col-md-5 d-none d-md-block">
                 <div class="card h-100">
                     <div class="card-header bg-primary text-white">
                         <h5 class="mb-0">Classifica Venditori</h5>
@@ -24,7 +25,7 @@
                             <tbody>
                                 @foreach($employees as $index => $data)
                                 <tr>
-                                    <td>{{ $index + 1 }}</td> <!-- Numero di posizione -->
+                                    <td>{{ $index + 1 }}</td>
                                     <td>{{ $data['employee']->First_Name }} {{ $data['employee']->Last_Name }}</td>
                                     <td>{{ $data['totalQuantity'] }}</td>
                                     <td>€{{ number_format($data['totalProfit'], 2) }}</td>
@@ -36,13 +37,57 @@
                 </div>
             </div>
 
-            <div class="col-md-7">
+            <!-- Grafico per Desktop -->
+            <div class="col-md-7 d-none d-md-block">
                 <div class="card h-100">
                     <div class="card-header bg-success text-white">
                         <h5 class="mb-0">Grafico delle Vendite</h5>
                     </div>
                     <div class="card-body">
                         <canvas id="topSellersChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grafico sopra la classifica per Mobile -->
+            <div class="col-md-12 d-md-none">
+                <div class="card h-100">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Grafico delle Vendite</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="topSellersChartMobile" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Classifica per Mobile -->
+            <div class="col-md-12 d-md-none">
+                <div class="card h-100">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Classifica Venditori</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Posizione</th>
+                                    <th>Nome</th>
+                                    <th>Prodotti Venduti</th>
+                                    <th>Profitti (€)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($employees as $index => $data)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $data['employee']->First_Name }} {{ $data['employee']->Last_Name }}</td>
+                                    <td>{{ $data['totalQuantity'] }}</td>
+                                    <td>€{{ number_format($data['totalProfit'], 2) }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -53,7 +98,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    const ctx = document.getElementById('topSellersChart').getContext('2d');
+    // Grafico per desktop
+    const ctxDesktop = document.getElementById('topSellersChart').getContext('2d');
     const labels = @json($employees->pluck('employee.First_Name'));
     const data = {
         labels: labels,
@@ -78,7 +124,11 @@
         }
     };
 
-    const topSellersChart = new Chart(ctx, config);
+    const topSellersChart = new Chart(ctxDesktop, config);
+
+    // Grafico per mobile
+    const ctxMobile = document.getElementById('topSellersChartMobile').getContext('2d');
+    const topSellersChartMobile = new Chart(ctxMobile, config);
 </script>
 
 <style scoped>
@@ -99,7 +149,7 @@
     }
 
     .container {
-        margin-top: 7rem;
+        margin-top: 5.3rem;
         background-color: rgba(255, 255, 255, 0.9);
         border-radius: 10px;
         padding: 20px;
@@ -143,33 +193,23 @@
     .card-body {
         padding: 1.5rem;
     }
-
     @media (max-width: 768px) {
         h1 {
-            margin-top: 8rem;
+            margin-top: 1rem; /* Ridotto per meno spazio sopra il titolo */
         }
 
-        .table thead {
-            display: none;
+        .table {
+            font-size: 14px; /* Dimensione del testo per la tabella */
         }
 
-        .table tr {
-            display: block;
-            margin-bottom: 15px;
+        .table th, .table td {
+            padding: 8px; /* Riduci il padding delle celle */
         }
 
-        .table td {
-            display: block;
-            padding: 10px;
-            border: none;
-            position: relative;
-        }
-
-        .table td::before {
-            content: attr(data-label);
-            font-weight: bold;
-            margin-bottom: 5px;
-            display: block;
+        .container {
+            padding: 15px; /* Riduci il padding per i dispositivi mobili */
+            width: 95%; /* Maggiore larghezza per i dispositivi mobili */
+            margin-bottom: 15px; /* Aggiunto margine inferiore */
         }
     }
 </style>

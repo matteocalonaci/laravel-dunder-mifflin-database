@@ -24,8 +24,8 @@
             <div class="col-md-4 mb-4">
                 <div class="card text-center">
                     <div class="card-body bg-warning text-white">
-                        <h5 class="card-title">Gestisci Uffici</h5>
-                        <a href="{{ route('admin.offices.index') }}" class="btn btn-light">Vai</a>
+                        <h5 class="card-title">Statistiche vendite</h5>
+                        <a href="{{ route('admin.statistics.index') }}" class="btn btn-light">Vai</a>
                     </div>
                 </div>
             </div>

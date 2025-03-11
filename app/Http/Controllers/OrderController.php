@@ -122,8 +122,14 @@ class OrderController extends Controller
     // Mostra il report delle vendite
     public function salesReport()
     {
-        // Recupera tutti gli ordini con i dettagli del prodotto
-        $orders = Order::with('product')->get();
+        // Ottieni la data di inizio e fine del mese corrente
+        $startOfMonth = now()->startOfMonth();
+        $endOfMonth = now()->endOfMonth();
+
+        // Recupera solo gli ordini del mese corrente con i dettagli del prodotto
+        $orders = Order::with('product')
+            ->whereBetween('Order_Date', [$startOfMonth, $endOfMonth]) // Filtra per data
+            ->get();
 
         // Calcola la somma totale delle vendite
         $totalSales = $orders->sum(function ($order) {
