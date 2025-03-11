@@ -14,7 +14,11 @@ class OrderController extends Controller
     // Mostra la lista degli ordini per admin
     public function index()
     {
-        $orders = Order::with(['employee', 'customer', 'product'])->paginate(9); // Recupera tutti gli ordini con le relazioni e li pagina
+        // Recupera tutti gli ordini con le relazioni e li pagina, ordinati dal più recente al più vecchio
+        $orders = Order::with(['employee', 'customer', 'product'])
+            ->orderBy('Order_Date', 'desc') // Ordina per data dell'ordine in modo decrescente
+            ->paginate(9); // Paginazione con 9 ordini per pagina
+
         return view('admin.orders.index', compact('orders')); // Restituisce la vista con gli ordini
     }
 
@@ -28,7 +32,7 @@ class OrderController extends Controller
             return redirect()->back()->with('error', 'Profilo dipendente non trovato.');
         }
 
-        // Recupera solo gli ordini associati all'ID del venditore autenticato
+        // Recupera solo gli ordini associati all'ID del venditore autenticato, ordinati dal più recente al più vecchio
         $orders = $user->employee->orders()
             ->with('product', 'customer') // Carica anche i dettagli del prodotto e del cliente
             ->orderBy('Order_Date', 'desc') // Ordina per data dell'ordine in modo decrescente

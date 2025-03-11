@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="background-image">
-    <div class="container mt-5">
+    <div class="container">
         <h1 class="text-white">Il mio Profilo</h1>
 
         <div class="card">
@@ -59,6 +59,7 @@
         flex-direction: column;
         justify-content: flex-start;
         padding: 20px;
+        margin-top: 5rem;
         height: 100%;
         overflow-y: auto;
         scrollbar-width: none;
