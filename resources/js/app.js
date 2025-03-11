@@ -29,3 +29,45 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Rimuove il loader dopo il caricamento iniziale
+    document.body.classList.add('loaded');
+
+    // Gestione click su link
+    document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Controlla se è un dropdown di Bootstrap
+            const isDropdownToggle = this.matches('[data-bs-toggle="dropdown"]') ||
+                                   this.closest('[data-bs-toggle="dropdown"]');
+
+            if (isDropdownToggle) {
+                e.preventDefault();
+                e.stopPropagation();
+                return;
+            }
+
+            if (!this.href.includes(window.location.hostname)) return;
+            document.body.classList.remove('loaded');
+        });
+    });
+
+    // Disabilita il loader per i click sui dropdown
+    document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            e.stopImmediatePropagation();
+        });
+    });
+
+    // Gestione submit form
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', () => {
+            document.body.classList.remove('loaded');
+        });
+    });
+
+    // Gestione beforeunload
+    window.addEventListener('beforeunload', () => {
+        document.body.classList.remove('loaded');
+    });
+});

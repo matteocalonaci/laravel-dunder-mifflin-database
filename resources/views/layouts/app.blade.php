@@ -19,57 +19,78 @@
     @vite(['resources/js/app.js'])
 </head>
 
-
-<body class="loaded">
-    <!-- Loader -->
+<body>
+    <div id="app">
+         <!-- Loader -->
     <div class="page-loader">
         <div class="loader"></div>
     </div>
-
-    <div id="app">
         <nav class="navbar navbar-expand-md p-2 m-0 d-flex justify-content-between">
-            <!-- ... resto della navbar invariato ... -->
+            <div class="app-container d-flex align-items-center w-100">
+                <div class="logo_dunder_mifflin">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Dunder_Mifflin%2C_Inc.svg/1200px-Dunder_Mifflin%2C_Inc.svg.png" alt="Logo Dunder Mifflin">
+                </div>
+
+                <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ Auth::check() ? (Auth::user()->isAdmin() ? route('admin.dashboard') : route('employee.dashboard')) : url('/') }}">
+                            {{ __('HOME') }}
+                        </a>
+                    </li>
+                    @guest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('LOGIN') }}</a>
+                        </li>
+                    @else
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @if(Auth::user()->role === 'admin')
+                                    <a class="dropdown-item" href="{{ route('admin.dashboard') }}">{{ __('Dashboard') }}</a>
+                                    <a class="dropdown-item" href="{{ route('admin.employees.index') }}">{{ __('Gestisci Dipendenti') }}</a>
+                                    <a class="dropdown-item" href="{{ route('admin.orders.index') }}">{{ __('Gestisci Ordini') }}</a>
+                                    <a class="dropdown-item" href="{{ route('admin.customers.index') }}">{{ __('Gestisci Clienti') }}</a>
+                                    <a class="dropdown-item" href="{{ route('admin.departments.index') }}">{{ __('Gestisci Dipartimenti') }}</a>
+                                    <a class="dropdown-item" href="{{ route('admin.suppliers.index') }}">{{ __('Gestisci Fornitori') }}</a>
+                                    <a class="dropdown-item" href="{{ route('admin.statistics.index') }}">{{ __('Statistiche') }}</a>
+                                @elseif(Auth::user()->role === 'employee')
+                                <a class="dropdown-item" href="{{ route('employee.dashboard') }}">{{ __('Dashboard') }}</a>
+                                <a class="dropdown-item" href="{{ route('employee.profile') }}">{{ __('Profilo') }}</a>
+                                    <a class="dropdown-item" href="{{ route('employee.orders.index') }}">{{ __('I miei Ordini') }}</a>
+                                @endif
+
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                    @endguest
+                </ul>
+            </div>
         </nav>
 
-        <main class="main-content">
+        <main class="">
             @yield('content')
         </main>
     </div>
-
-    <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}"></script>
-
-    <!-- Loader Logic -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Rimuove il loader dopo il caricamento iniziale
-            document.body.classList.add('loaded');
-
-            // Gestione click su link
-            document.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    if (!this.href.includes(window.location.hostname)) return;
-                    document.body.classList.remove('loaded');
-                });
-            });
-
-            // Gestione submit form
-            document.querySelectorAll('form').forEach(form => {
-                form.addEventListener('submit', () => {
-                    document.body.classList.remove('loaded');
-                });
-            });
-
-            // Gestione beforeunload
-            window.addEventListener('beforeunload', () => {
-                document.body.classList.remove('loaded');
-            });
-        });
-    </script>
+</body>
 
 </html>
 
 <style>
+    /* Stili del loader */
     .page-loader {
         position: fixed;
         left: 0;
@@ -82,6 +103,7 @@
         align-items: center;
         justify-content: center;
         transition: opacity 0.3s ease;
+        pointer-events: none;
     }
 
     .loader {
@@ -100,7 +122,6 @@
 
     .loaded .page-loader {
         opacity: 0;
-        pointer-events: none;
     }
 </style>
 
