@@ -44,5 +44,12 @@
     h1{
         font-size: 4rem;
     }
+    h1 {
+        text-shadow:
+            -1px -1px 0 rgb(0, 0, 0),
+             1px -1px 0 rgb(0, 0, 0),
+            -1px  1px 0 rgb(0, 0, 0),
+            1px  1px 0 rgb(0, 0, 0);
+    }
 }
 </style>
