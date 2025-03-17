@@ -12,6 +12,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+
 class EmployeeController extends Controller
 {
     public function statistics()
@@ -89,24 +91,33 @@ class EmployeeController extends Controller
         $request->validate([
             'First_Name' => 'required|string|max:255',
             'Last_Name' => 'required|string|max:255',
-            'ID_Department' => 'required|integer|exists:departments,id', // Ensure the department exists
+            'ID_Department' => 'required|integer|exists:departments,id',
             'Phone' => 'required|string|max:15',
             'Email' => 'required|email|unique:employees,email',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048' // Validazione dell'immagine
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         // Gestisci il caricamento dell'immagine
         $imagePath = $request->file('image')->store('images', 'public');
 
+        // Crea un nuovo utente
+        $user = User::create([
+            'name' => $request->First_Name . ' ' . $request->Last_Name,
+            'email' => $request->Email,
+            'password' => Hash::make('dundermifflin'), // Imposta una password di default o generala
+            'role' => 'employee' // Imposta il ruolo se necessario
+        ]);
+
         // Creazione del nuovo dipendente
         Employee::create([
+            'ID_User' => $user->id, // Usa l'ID dell'utente appena creato
             'First_Name' => $request->First_Name,
             'Last_Name' => $request->Last_Name,
             'ID_Department' => $request->ID_Department,
             'ID_Office' => 1, // Imposta l'ID dell'ufficio a 1
             'Phone' => $request->Phone,
             'Email' => $request->Email,
-            'image' => $imagePath, // Salva il percorso dell'immagine
+            'image' => $imagePath,
         ]);
 
         return redirect()->route('admin.employees.index')->with('success', 'Dipendente creato con successo.');
