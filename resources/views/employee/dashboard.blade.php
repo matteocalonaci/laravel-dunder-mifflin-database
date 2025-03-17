@@ -33,7 +33,7 @@
             <div class="card text-center">
                 <div class="card-body bg-info text-white">
                     <h5 class="card-title">Lista Clienti</h5>
-                    <a href="{{ route('employee.customers.index') }}" class="btn btn-light">Vai</a>
+                    {{-- <a href="{{ route('employee.customers.index') }}" class="btn btn-light">Vai</a> --}}
                 </div>
             </div>
         </div>

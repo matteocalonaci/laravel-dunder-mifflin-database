@@ -23,7 +23,13 @@
 
                     <div class="col-md-3 text-center">
                         @if($employee->image)
-                        <img src="{{ $employee->image }}" alt="Immagine di {{ $employee->First_Name }}" class="img-fluid custom-image" style="width: 100%; max-width: 300px; max-height: 300px">
+                            @if(filter_var($employee->image, FILTER_VALIDATE_URL))
+                                <!-- Se l'immagine è un URL valido -->
+                                <img src="{{ $employee->image }}" alt="Immagine di {{ $employee->First_Name }}" class="img-fluid custom-image">
+                            @else
+                                <!-- Se l'immagine è salvata nello storage -->
+                                <img src="{{ asset('storage/' . $employee->image) }}" alt="Immagine di {{ $employee->First_Name }}" class="img-fluid custom-image">
+                            @endif
                         @else
                             <p>Immagine non disponibile.</p>
                         @endif
@@ -42,6 +48,16 @@
         height: 100%;
         margin: 0;
     }
+
+
+    .custom-image {
+    width: 100%;
+    height: auto;
+    max-width: 300px;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+}
 
     .background-image {
         background-image: url('https://s.wsj.net/public/resources/images/MK-BQ669_DUNDER_G_20111127202517.jpg');
