@@ -18,8 +18,7 @@
                         <p><strong>Telefono:</strong> {{ $employee->Phone }}</p>
                         <p><strong>Email:</strong> {{ $employee->Email }}</p>
                         <p><strong>Dipartimento:</strong> {{ $employee->department ? $employee->department->Department_Name : 'N/A' }}</p>
-                        <p><strong>Data di Assunzione:</strong> {{ $employee->hired_at ? \Carbon\Carbon::parse($employee->hired_at)->format('d/m/Y') : 'N/A' }}</p>
-                    </div>
+                        <p><strong>Data di Assunzione:</strong> {{ $employee->hired_at ? \Carbon\Carbon::parse($employee->hired_at)->format('d/m/Y') : 'N/A' }}</p>                     </div>
 
                     <div class="col-md-3 text-center">
                         @if($employee->image)

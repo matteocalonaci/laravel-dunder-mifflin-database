@@ -66,6 +66,14 @@
                         @enderror
                     </div>
 
+                    <div class="form-group">
+                        <label for="hired_at">Data di Assunzione</label>
+                        <input type="date" name="hired_at" id="hired_at" class="form-control" required>
+                        @error('hired_at')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
                     <div class="mt-3">
                         <a href="{{ route('admin.employees.index') }}" class="btn btn-secondary">Annulla</a>
                         <button type="submit" class="btn btn-primary">Crea Dipendente</button>

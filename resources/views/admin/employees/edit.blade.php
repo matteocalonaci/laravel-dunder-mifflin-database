@@ -45,6 +45,14 @@
                         @enderror
                     </div>
 
+                    <div class="form-group">
+                        <label for="hired_at">Data di Assunzione</label>
+                        <input type="date" name="hired_at" id="hired_at" class="form-control" value="{{ old('hired_at', $employee->hired_at ? \Carbon\Carbon::parse($employee->hired_at)->format('Y-m-d') : '') }}" required>
+                        @error('hired_at')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
                     <div class="mt-3">
                         <a href="{{ route('admin.employees.index') }}" class="btn btn-secondary">Annulla</a>
                         <button type="submit" class="btn btn-primary">Aggiorna</button>
@@ -97,5 +105,15 @@
              1px -1px 0 rgb(0, 0, 0),
             -1px  1px 0 rgb(0, 0, 0),
             1px  1px 0 rgb(0, 0, 0);
+    }
+
+    @media (max-width: 768px) {
+        .custom-margin {
+            margin-top: 0; /* Rimuovi margine superiore per evitare spazi bianchi */
+        }
+
+        .card {
+            margin-bottom: 1rem; /* Margine inferiore per separare le card */
+        }
     }
 </style>

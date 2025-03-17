@@ -18,6 +18,7 @@ class Employee extends Model
         'ID_Office',
         'Phone',
         'Email',
+        'hired_at'
     ];
 
     public function orders()

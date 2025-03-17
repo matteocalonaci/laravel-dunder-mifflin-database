@@ -94,7 +94,8 @@ class EmployeeController extends Controller
             'ID_Department' => 'required|integer|exists:departments,id',
             'Phone' => 'required|string|max:15',
             'Email' => 'required|email|unique:employees,email',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'hired_at' => 'required|date', // Aggiungi la validazione per la data di assunzione
         ]);
 
         // Gestisci il caricamento dell'immagine
@@ -118,6 +119,7 @@ class EmployeeController extends Controller
             'Phone' => $request->Phone,
             'Email' => $request->Email,
             'image' => $imagePath,
+            'hired_at' => $request->hired_at, // Aggiungi la data di assunzione
         ]);
 
         return redirect()->route('admin.employees.index')->with('success', 'Dipendente creato con successo.');
@@ -164,18 +166,29 @@ public function edit(Employee $employee)
 
 public function update(Request $request, Employee $employee)
 {
+    // Validazione dei dati
     $request->validate([
         'Email' => 'required|email',
         'Phone' => 'required|string|max:15',
-        'ID_Department' => 'required|exists:departments,id', // Ensure the department exists
+        'ID_Department' => 'required|exists:departments,id', // Assicurati che il dipartimento esista
+        'hired_at' => 'required|date', // Aggiungi la validazione per la data di assunzione
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' // Validazione dell'immagine (opzionale)
     ]);
 
-    // Update the employee's details
+    // Aggiorna i dettagli del dipendente
     $employee->update([
         'Email' => $request->Email,
         'Phone' => $request->Phone,
         'ID_Department' => $request->ID_Department,
+        'hired_at' => $request->hired_at, // Aggiorna la data di assunzione
     ]);
+
+    // Gestisci il caricamento dell'immagine se fornita
+    if ($request->hasFile('image')) {
+        // Gestisci il caricamento dell'immagine
+        $imagePath = $request->file('image')->store('images', 'public');
+        $employee->update(['image' => $imagePath]); // Aggiorna il percorso dell'immagine
+    }
 
     return redirect()->route('admin.employees.index')->with('success', 'Dettagli dipendente aggiornati con successo.');
 }
