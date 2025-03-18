@@ -17,8 +17,7 @@
             </div>
         @endif
 
-        <a href="{{ route('admin.customers.create') }}" class="btn btn-primary width-mobile mb-3">Crea Nuovo Cliente</a>
-
+<a href="{{ route('employee.customers.create') }}" class="btn btn-primary width-mobile mb-3">Crea Nuovo Cliente</a>
         <div class="table-container">
             <div class="table-header">
                 <div class="col-id">ID</div>
@@ -35,8 +34,8 @@
                         <div class="col-contatto">{{ $customer->Contact_Number }}</div>
                         <div class="col-indirizzo">{{ $customer->Address }}</div>
                         <div class="col-azioni">
-                            <a href="{{ route('admin.customers.edit', $customer->id) }}" class="btn btn-warning btn-sm mx-2"><i class="fas fa-edit"></i></a>
-                            <form action="{{ route('admin.customers.destroy', $customer->id) }}" method="POST" style="display:inline;">
+                            <a href="{{ route('employee.customers.edit', $customer->id) }}" class="btn btn-warning btn-sm mx-2"><i class="fas fa-edit"></i></a>
+                            <form action="{{ route('employee.customers.destroy', $customer->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>

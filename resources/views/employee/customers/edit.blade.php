@@ -15,7 +15,7 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.customers.update', $customer->id) }}" method="POST">
+        <form action="{{ route('employee.customers.update', $customer->id) }}" method="POST">
             @csrf
             @method('PUT') <!-- Indica che stiamo facendo un aggiornamento -->
             <div class="form-group">
@@ -34,7 +34,7 @@
             </div>
 
             <button type="submit" class="btn btn-success w-100 mt-2">Aggiorna Cliente</button>
-            <a href="{{ route('admin.customers.index') }}" class="btn btn-secondary w-100 mt-2">Annulla</a>
+            <a href="{{ route('employee.customers.index') }}" class="btn btn-secondary w-100 mt-2">Annulla</a>
         </form>
     </div>
 </div>

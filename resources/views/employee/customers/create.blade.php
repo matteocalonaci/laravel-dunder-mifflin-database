@@ -15,7 +15,7 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.customers.store') }}" method="POST">
+        <form action="{{ route('employee.customers.store') }}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="Customer_Name" class="text-white">Nome Cliente</label>
@@ -33,7 +33,7 @@
             </div>
 
             <button type="submit" class="btn btn-success w-100 mt-3">Crea Cliente</button>
-            <a href="{{ route('admin.customers.index') }}" class="btn btn-secondary w-100 mt-2">Annulla</a>
+            <a href="{{ route('employee.customers.index') }}" class="btn btn-secondary w-100 mt-2">Annulla</a>
         </form>
     </div>
 </div>
