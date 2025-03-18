@@ -18,7 +18,7 @@
         @endif
 
         <!-- Pulsante per creare un nuovo ordine -->
-        <a href="{{ route('employee.orders.create') }}" class="btn btn-primary mb-3">Crea Nuovo Ordine</a>
+        {{-- <a href="{{ route('employee.orders.create') }}" class="btn btn-primary mb-3">Crea Nuovo Ordine</a> --}}
 
         <div class="table-container">
             <div class="table-header">
@@ -28,7 +28,7 @@
                 <div class="col-prodotto">Prodotto</div>
                 <div class="col-cliente">Cliente</div> <!-- Colonna per il cliente -->
                 <div class="col-venditore">Venditore</div> <!-- Nuova colonna per il venditore -->
-                <div class="col-azioni">Azioni</div>
+                {{-- <div class="col-azioni">Azioni</div> --}}
             </div>
             <div class="table-body">
                 @forelse($orders as $order)
@@ -39,11 +39,11 @@
                         <div class="col-prodotto">{{ $order->product->Product_Name ?? 'N/A' }}</div>
                         <div class="col-cliente">{{ $order->customer->Customer_Name ?? 'N/A' }}</div> <!-- Mostra il nome del cliente -->
                         <div class="col-venditore">{{ $order->employee->First_Name . ' ' . $order->employee->Last_Name ?? 'N/A' }}</div> <!-- Mostra il nome del venditore -->
-                        <div class="col-azioni">
+                        {{-- <div class="col-azioni">
                             <a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-warning btn-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
-                        </div>
+                        </div> --}}
                     </div>
                 @empty
                     <div class="table-row">
