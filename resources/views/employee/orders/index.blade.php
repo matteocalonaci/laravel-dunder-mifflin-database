@@ -37,11 +37,18 @@
                         <div class="col-quantita">{{ $order->Quantity }}</div>
                         <div class="col-prodotto">{{ $order->product->Product_Name ?? 'N/A' }}</div>
                         <div class="col-cliente">{{ $order->customer->Customer_Name ?? 'N/A' }}</div> <!-- Mostra il nome del cliente -->
-                        <div class="col-azioni">
-                            <a href="{{ route('employee.orders.edit', $order->id) }}" class="btn btn-warning btn-sm">
+                        <td class="col-azioni">
+                            <a href="{{ route('employee.orders.edit', $order->id) }}" class="btn btn-warning btn-sm" style="margin-right: 0;">
                                 <i class="fas fa-edit"></i>
                             </a>
-                        </div>
+                            <form action="{{ route('employee.orders.destroy', $order->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Sei sicuro di voler eliminare questo ordine?');" style="margin-left: 0;">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
                     </div>
                 @empty
                     <div class="table-row">
@@ -140,8 +147,14 @@
             flex: 0 0 200px;
         }
 
-        .col-azioni {
-            flex: 0 0 70px;
+
+    .col-azioni {
+        flex: 0 0 100px;
+    }
+
+    .btn-warning {
+            width: 2rem;
+            height: 1.5rem;
         }
 
         h1 {

@@ -27,7 +27,7 @@ Route::middleware(['auth', 'role:admin'])
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('employees', EmployeeController::class);
-        Route::resource('orders', OrderController::class);
+        Route::get('orders', [OrderController::class, 'indexAdmin'])->name('orders.index'); // Solo visualizzazione
         Route::resource('customers', CustomerController::class); // Customer completo per admin
         Route::resource('departments', DepartmentController::class);
         Route::resource('suppliers', SupplierController::class);
@@ -51,7 +51,7 @@ Route::middleware(['auth', 'role:employee'])
 
         // Ordini
         Route::get('orders', [OrderController::class, 'userOrders'])->name('orders.index'); // Rotta per gli ordini del dipendente
-        Route::resource('orders', OrderController::class)->only(['create', 'store', 'edit', 'update', 'show']);
+        Route::resource('orders', OrderController::class)->only(['create', 'store', 'edit', 'update', 'show','destroy']);
         Route::get('customers', [CustomerController::class, 'employeeIndex'])->name('customers.index'); // Rotta per l'indice dei clienti
         Route::resource('customers', CustomerController::class)->except(['index']); // Escludi l'indice dalla risorsa
     });
