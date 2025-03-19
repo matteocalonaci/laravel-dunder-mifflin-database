@@ -33,4 +33,5 @@ public function employee()
     {
         return $this->belongsTo(Product::class, 'ID_Product');
     }
+
 }

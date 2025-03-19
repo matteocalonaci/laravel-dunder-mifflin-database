@@ -285,13 +285,20 @@ public function update(Request $request, Employee $employee)
 
 public function createOrder()
 {
+    // Ottieni l'employee autenticato
+    $user = Auth::user();
+
+    // Controlla se l'employee appartiene al dipartimento vendite
+    if (!$user->employee || $user->employee->department_id !== 'ID_DEL_DIPARTIMENTO_VENDITE') {
+        return redirect()->back()->with('error', 'Accesso non autorizzato.'); // Sostituisci con l'ID del dipartimento vendite
+    }
+
     // Ottieni i prodotti e i clienti per il selettore
     $products = Product::all();
     $customers = Customer::all();
 
     return view('employee.orders.create', compact('products', 'customers'));
 }
-
 public function storeOrder(Request $request)
 {
     // Validazione dei dati
@@ -302,8 +309,16 @@ public function storeOrder(Request $request)
         'ID_Customer' => 'required|exists:customers,id',
     ]);
 
+    // Ottieni l'employee autenticato
+    $user = Auth::user();
+
+    // Controlla se l'employee appartiene al dipartimento vendite
+    if (!$user->employee || $user->employee->ID_Department !== 'ID_DEL_DIPARTIMENTO_VENDITE') {
+        return redirect()->back()->with('error', 'Accesso non autorizzato.'); // Sostituisci con l'ID del dipartimento vendite
+    }
+
     // Crea un nuovo ordine
-    Auth::user()->employee->orders()->create([
+    $user->employee->orders()->create([
         'Order_Date' => $request->Order_Date,
         'Quantity' => $request->Quantity,
         'ID_Product' => $request->ID_Product,

@@ -52,8 +52,8 @@ Route::middleware(['auth', 'role:employee'])
         // Ordini
         Route::get('orders', [OrderController::class, 'userOrders'])->name('orders.index'); // Rotta per gli ordini del dipendente
         Route::resource('orders', OrderController::class)->only(['create', 'store', 'edit', 'update', 'show']);
-        Route::resource('customers', CustomerController::class); // Rotte per il Resource Controller dei clienti
-
+        Route::get('customers', [CustomerController::class, 'employeeIndex'])->name('customers.index'); // Rotta per l'indice dei clienti
+        Route::resource('customers', CustomerController::class)->except(['index']); // Escludi l'indice dalla risorsa
     });
 
 require __DIR__ . '/auth.php';
