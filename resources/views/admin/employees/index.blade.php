@@ -75,13 +75,15 @@
         align-items: flex-start;
         justify-content: center;
         flex-direction: column;
+        overflow: hidden; /* Nascondere la barra di scorrimento nella sezione principale */
     }
 
     .container {
         margin-top: 3rem;
         max-width: 100%;
         padding: 20px;
-        overflow: hidden;
+        height: 100vh; /* Impostare altezza al 100% per la parte contenente il contenuto */
+        overflow-y: auto; /* Permette lo scroll del contenuto */
     }
 
     .table-container {
@@ -91,7 +93,6 @@
         border-radius: 10px;
         overflow: hidden;
         max-height: 70vh;
-        overflow-y: auto;
     }
 
     .table-header, .table-row {
@@ -162,6 +163,20 @@
              1px -1px 0 rgb(0, 0, 0),
             -1px  1px 0 rgb(0, 0, 0),
             1px  1px 0 rgb(0, 0, 0);
+    }
+
+    /* Stile per scrollbar trasparente */
+    .container::-webkit-scrollbar {
+        width: 10px; /* Imposta la larghezza della scrollbar */
+    }
+
+    .container::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2); /* Barra di scorrimento trasparente */
+        border-radius: 10px; /* Arrotonda gli angoli della scrollbar */
+    }
+
+    .container::-webkit-scrollbar-track {
+        background-color: transparent; /* Rende il tracciato trasparente */
     }
 
     @media (max-width: 768px) {
