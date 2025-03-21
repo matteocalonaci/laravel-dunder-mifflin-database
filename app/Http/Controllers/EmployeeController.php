@@ -62,7 +62,7 @@ class EmployeeController extends Controller
         // Controlla se l'utente autenticato è un admin
         if (Auth::user()->role === 'admin') {
             // Ottieni tutti i dipendenti con i loro dipartimenti, paginati
-            $employees = Employee::with('department')->paginate(9); // Modifica il numero 10 con il numero di dipendenti per pagina che desideri
+            $employees = Employee::with('department')->paginate(8); // Modifica il numero 10 con il numero di dipendenti per pagina che desideri
             return view('admin.employees.index', compact('employees'));
         }
 

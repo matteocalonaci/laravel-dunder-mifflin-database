@@ -11,7 +11,9 @@ class CustomerController extends Controller
     // Funzioni per Admin
     public function index()
     {
-        $customers = Customer::orderBy('created_at', 'desc')->paginate(10);
+        $customers = Customer::orderBy('id', 'desc')->paginate(10);
+
+
         return view('admin.customers.index', compact('customers'));
     }
 
@@ -39,7 +41,9 @@ class CustomerController extends Controller
     // Funzioni per Employee
     public function employeeIndex()
     {
-        $customers = Customer::orderBy('created_at', 'desc')->paginate(10);
+        $customers = Customer::orderBy('id', 'desc')->paginate(10);
+
+
         return view('employee.customers.index', compact('customers'));
     }
 

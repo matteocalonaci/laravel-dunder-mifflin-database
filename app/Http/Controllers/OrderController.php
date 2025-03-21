@@ -14,7 +14,7 @@ class OrderController extends Controller
     public function indexAdmin()
     {
         $orders = Order::with(['customer', 'product', 'employee']) // Carica le relazioni
-            ->orderBy('created_at', 'desc')
+        ->orderBy('Order_Date', 'desc')
             ->paginate(10);
         return view('admin.orders.index', compact('orders'));
     }

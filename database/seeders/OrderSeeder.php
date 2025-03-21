@@ -32,9 +32,9 @@ class OrderSeeder extends Seeder
 
         // Genera esattamente 5 ordini per ciascun mese
         foreach ($months as $month) {
-            for ($i = 0; $i < 2500; $i++) { // Genera 5 ordini per ogni mese
+            for ($i = 0; $i < 3000; $i++) {
                 $orders[] = [
-                    'Order_Date' => $faker->dateTimeBetween($month, $month->copy()->endOfMonth()), // Data casuale nel mese corrente
+                    'Order_Date' => $faker->dateTimeBetween('-5 years', 'now'),
                     'ID_User' => $faker->randomElement($salesUserIds), // ID dipendente casuale dal dipartimento vendite
                     'ID_Customer' => $faker->numberBetween(1, $customerCount), // ID cliente casuale
                     'ID_Product' => $faker->numberBetween(1, $productCount), // ID prodotto casuale
